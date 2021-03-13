@@ -49,6 +49,8 @@ function App() {
 
         // clearing out the input
         setUserInput('');
+
+
     }
 
     console.log(wordsLine1);
