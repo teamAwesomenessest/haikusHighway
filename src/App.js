@@ -46,8 +46,6 @@ function App() {
     console.log( countSyllables(separateWord));
     setLine1Count(prevState => prevState - countSyllables(separateWord) );
  
-    
-
     // handleClick stores a value of the chosen word in wordsLine1 state so it can be displayed on the page later on
     // updating wordsLine1 state
     setWordsLine1(prevState => `${prevState} ${separateWord}`);
@@ -55,25 +53,30 @@ function App() {
     // clearing suggestedSelection
     setSuggestedSelection([]);
 
-    //second api using initial user input that was submitted that was used for the first api call
-    fetch(`http://api.datamuse.com/words?lc=${userInput}&md=s&max=10`)
-      .then(response => response.json())
-      .then(jsonResponse => {
-        const filteredSelection = jsonResponse.filter(filteredWord => {
-            return filteredWord.numSyllables <= line1Count;
-        })
-        console.log(filteredSelection)
-        console.log(line1Count)
-        setSuggestedSelection(filteredSelection);
-        console.log(suggestedSelection);
-      })
-
+    // callAPI()
     // clearing out the input
     setUserInput(separateWord);
   }
 
-  console.log(wordsLine1);
-  console.log(line1Count);
+
+  //use useEffect hook to get filtered selection when line1Count changes and limits number of syllables in remaining words.
+useEffect(() => {
+        //second api using initial user input that was submitted that was used for the first api call
+        fetch(`http://api.datamuse.com/words?lc=${userInput}&md=s&max=10`)
+            .then(response => response.json())
+            .then(jsonResponse => {
+                const filteredSelection = jsonResponse.filter(filteredWord => {
+                    return filteredWord.numSyllables <= line1Count;
+                })
+                console.log(filteredSelection)
+                console.log(line1Count)
+                setSuggestedSelection(filteredSelection);
+                console.log(suggestedSelection);
+            })
+}, [line1Count])
+
+//   console.log(wordsLine1);
+//   console.log(line1Count);
   return (
     <div className="App">
       <h1>Haikus Highway</h1>
