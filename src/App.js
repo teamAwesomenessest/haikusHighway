@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 function App() {
 
   // initialize state to track line one syllable count, with a maximum set to 5 syllables
@@ -30,7 +30,6 @@ function App() {
   // when a user click on a button (chooses a word), it calls a handleClick function
   // handleClick prevents default button behavior (refreshing)
 
-
   const handleClick = (event, separateWord) => {
     event.preventDefault();
     console.log(separateWord);
@@ -60,7 +59,12 @@ function App() {
     fetch(`http://api.datamuse.com/words?lc=${userInput}&md=s&max=10`)
       .then(response => response.json())
       .then(jsonResponse => {
-        setSuggestedSelection(jsonResponse);
+        const filteredSelection = jsonResponse.filter(filteredWord => {
+            return filteredWord.numSyllables <= line1Count;
+        })
+        console.log(filteredSelection)
+        console.log(line1Count)
+        setSuggestedSelection(filteredSelection);
         console.log(suggestedSelection);
       })
 
