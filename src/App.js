@@ -11,6 +11,9 @@ function App() {
   //initialize state to make a dynamic api call based on userInput
   const [userInput, setUserInput] = useState('');
 
+  // error message variable
+  const [isUserError, setIsUserError] = useState(false);
+
   //create a state to hold user`s word for line 1
   const [wordsLine1, setWordsLine1] = useState('');
 
@@ -25,18 +28,32 @@ function App() {
 
     //below is our non-apha characters removal experiment
     let userBadChar = (badChar)=>{
-      return badChar.match(" ").length;
+      const regexp = new RegExp('[^a-zA-Z]')
+      const badCharMatch = badChar.match(regexp)
+      if (badCharMatch != null) {
+        return badCharMatch.length;
+      } else {
+        return 0
+      } 
     };
-    userBadChar(userInput);
-    console.log(userBadChar);
-    
-
-    fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
+    console.log(userBadChar(userInput));
+    if (userBadChar(userInput) > 0) {
+      setIsUserError(true) 
+    } else {
+      fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
       .then(response => response.json())
       .then(jsonResponse => {
         setSuggestedSelection(jsonResponse);
-        // console.log(suggestedSelection);
       })
+    }
+    
+
+    // fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
+    //   .then(response => response.json())
+    //   .then(jsonResponse => {
+    //     setSuggestedSelection(jsonResponse);
+    //     // console.log(suggestedSelection);
+    //   })
   }
 
   // when a user click on a button (chooses a word), it calls a handleClick function
@@ -109,6 +126,7 @@ useEffect(() => {
             <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
               <label htmlFor="wordInput">Enter a word for the first line:</label>
               {/* make input invisible on click using css*/}
+              { isUserError ? <p className="errorMessage">Friendly error message</p> : null}
               <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
               {userInput ? <h3>Choose one:</h3> : null}
               {
