@@ -102,7 +102,7 @@ useEffect(() => {
               <label htmlFor="wordInput">Enter a word for the first line:</label>
               {/* make input invisible on click using css*/}
               <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-              <h3>Choose one:</h3>
+              {userInput ? <h3>Choose one:</h3> : null}
               {
               //runs twice: 
               //1. based on change of userInput 
@@ -116,15 +116,19 @@ useEffect(() => {
           </section>
 
           {/* constructed haiku */}
-          <section className="progressSection">
-            <h3>Your Haiku in Progress...</h3>
-            <div>
-          {/* display user`s selected words for line one here */}
-              <p>{wordsLine1}</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-              <p>Lorem ipsum dolor sit amet</p>
-            </div>
-          </section>
+          {wordsLine1 
+            ? 
+            <section className="progressSection">
+                <h3>Your Haiku in Progress...</h3>
+                <div>
+              {/* display user`s selected words for line one here */}
+                  <p>{wordsLine1}</p>
+                  <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
+                  <p>Lorem ipsum dolor sit amet</p>
+                </div>
+              </section>
+            : null
+          }
         </main>
       </div>
 
