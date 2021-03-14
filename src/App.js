@@ -23,11 +23,19 @@ function App() {
     //targets what the user types
     setUserInput(event.target.value);
 
+    //below is our non-apha characters removal experiment
+    let userBadChar = (badChar)=>{
+      return badChar.match(" ").length;
+    };
+    userBadChar(userInput);
+    console.log(userBadChar);
+    
+
     fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
       .then(response => response.json())
       .then(jsonResponse => {
         setSuggestedSelection(jsonResponse);
-        console.log(suggestedSelection);
+        // console.log(suggestedSelection);
       })
   }
 
@@ -36,7 +44,7 @@ function App() {
 
   const handleClick = (event, separateWord) => {
     event.preventDefault();
-    console.log(separateWord);
+    // console.log(separateWord);
     
     let countSyllables = (sepWordModified) => {
     sepWordModified = sepWordModified.toLowerCase();
@@ -47,7 +55,7 @@ function App() {
   }
 
     // countSyllables(separateWord);
-    console.log( countSyllables(separateWord));
+    // console.log( countSyllables(separateWord));
     setLine1Count(prevState => prevState - countSyllables(separateWord) );
  
     // handleClick stores a value of the chosen word in wordsLine1 state so it can be displayed on the page later on
@@ -72,10 +80,10 @@ useEffect(() => {
                 const filteredSelection = jsonResponse.filter(filteredWord => {
                     return filteredWord.numSyllables <= line1Count;
                 })
-                console.log(filteredSelection)
-                console.log(line1Count)
+                // console.log(filteredSelection)
+                // console.log(line1Count)
                 setSuggestedSelection(filteredSelection);
-                console.log(suggestedSelection);
+                // console.log(suggestedSelection);
             })
 }, [line1Count])
 
@@ -84,7 +92,7 @@ useEffect(() => {
   return (
 <>
     <div className="background wrapper">
-        <img src={backgroundImg} className="backgroundImg" aria-hidden="true" />
+        <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
         <header>
           <img src={ headerImg } className="headerImg" aria-hidden="true" />
           <h1 className="visuallyHidden">Haikus Highway</h1>
