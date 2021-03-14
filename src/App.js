@@ -1,5 +1,9 @@
-import './App.css';
 import { useState, useEffect } from 'react';
+import './styles/App.scss';
+import headerImg from '././assets/header.svg' //h1 sign
+import backgroundImg from '././assets/road.svg' //road background
+import instructionsImg from '././assets/instructions.svg' //road background
+
 function App() {
 
   // initialize state to track line one syllable count, with a maximum set to 5 syllables
@@ -78,25 +82,60 @@ useEffect(() => {
 //   console.log(wordsLine1);
 //   console.log(line1Count);
   return (
-    <div className="App">
-      <h1>Haikus Highway</h1>
-      <form action="">
-        <label htmlFor="userWord"></label>
-        {/* make input invisible on click using css*/}
-        <input type="text" id="userWord" value={userInput} onChange={handleChange} />
-        {
-          //runs twice: 
-          //1. based on change of userInput 
-          //2. runs based off the button click when the user selects their word from the selection and makes second api call
-          suggestedSelection.map((separateWord) => {
-            return (
-              <button key={separateWord.score} onClick={(event) => handleClick(event, separateWord.word)}>{separateWord.word}</button>)
-          })
-        }
-      </form>
-      {/* display user`s selected words for line one here */}
-      <p>{wordsLine1}</p>
-    </div>
+<>
+    <div className="background wrapper">
+        <img src={backgroundImg} className="backgroundImg" aria-hidden="true" />
+        <header>
+          <img src={ headerImg } className="headerImg" aria-hidden="true" />
+          <h1 className="visuallyHidden">Haikus Highway</h1>
+          <nav>
+            <ul>
+              <li aria-label="Instructions"><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></li>
+            </ul>
+          </nav>
+        </header>
+
+        <main>
+          {/* input form */}
+          <section className="wordInputSection">
+            <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
+              <label htmlFor="wordInput">Enter a word for the first line:</label>
+              {/* make input invisible on click using css*/}
+              <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
+              <h3>Choose one:</h3>
+              {
+              //runs twice: 
+              //1. based on change of userInput 
+              //2. runs based off the button click when the user selects their word from the selection and makes second api call
+              suggestedSelection.map((separateWord) => {
+                return (
+                  <button className="wordButton" key={separateWord.score} onClick={(event) => handleClick(event, separateWord.word)}>  {separateWord.word} </button>)
+                })
+              }
+            </form>
+          </section>
+
+          {/* constructed haiku */}
+          <section className="progressSection">
+            <h3>Your Haiku in Progress...</h3>
+            <div>
+          {/* display user`s selected words for line one here */}
+              <p>{wordsLine1}</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
+              <p>Lorem ipsum dolor sit amet</p>
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <footer>
+        <div className="wrapper">
+          <p>Created at <a href="www.junocollege.com">Juno College</a></p>
+          <p>Made by ....</p>
+        </div>
+      </footer>
+
+    </>
   );
 }
 
