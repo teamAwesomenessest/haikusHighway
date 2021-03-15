@@ -25,35 +25,31 @@ function App() {
   const handleChange = event => {
     //targets what the user types
     setUserInput(event.target.value);
+    setSuggestedSelection([]); //clear previous options
 
-    //below is our non-apha characters removal experiment
-    let userBadChar = (badChar)=>{
-      const regexp = new RegExp('[^a-zA-Z]')
-      const badCharMatch = badChar.match(regexp)
-      if (badCharMatch != null) {
-        return badCharMatch.length;
+    //validate non alpha characters entered
+    let userInvalidChars = (textInput)=>{
+      const regExp = new RegExp('[^a-zA-Z]');
+      const invalidCharMatch = textInput.match(regExp);
+      if (invalidCharMatch != null) {
+        return invalidCharMatch.length;
       } else {
         return 0
       } 
     };
-    console.log(userBadChar(userInput));
-    if (userBadChar(userInput) > 0) {
-      setIsUserError(true) 
+    
+    //if invalid characters found, show error, else perform API call
+    if (userInvalidChars(event.target.value) > 0) {
+      setIsUserError(true);
+      setSuggestedSelection([]); //ensures reset on backspace
     } else {
+      setIsUserError(false);
       fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
       .then(response => response.json())
       .then(jsonResponse => {
         setSuggestedSelection(jsonResponse);
       })
     }
-    
-
-    // fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
-    //   .then(response => response.json())
-    //   .then(jsonResponse => {
-    //     setSuggestedSelection(jsonResponse);
-    //     // console.log(suggestedSelection);
-    //   })
   }
 
   // when a user click on a button (chooses a word), it calls a handleClick function
@@ -74,7 +70,7 @@ function App() {
     // countSyllables(separateWord);
     // console.log( countSyllables(separateWord));
     setLine1Count(prevState => prevState - countSyllables(separateWord) );
- 
+
     // handleClick stores a value of the chosen word in wordsLine1 state so it can be displayed on the page later on
     // updating wordsLine1 state
     setWordsLine1(prevState => `${prevState} ${separateWord}`);
@@ -84,7 +80,8 @@ function App() {
 
     // callAPI()
     // clearing out the input
-    setUserInput(separateWord);
+    // setUserInput(separateWord);
+    setUserInput('');
   }
 
 
@@ -125,10 +122,14 @@ useEffect(() => {
           <section className="wordInputSection">
             <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
               <label htmlFor="wordInput">Enter a word for the first line:</label>
-              {/* make input invisible on click using css*/}
-              { isUserError ? <p className="errorMessage">Friendly error message</p> : null}
+              
+              {/* show error message if invalid characters entered */
+                isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
+              }
+              
               <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-              {userInput ? <h3>Choose one:</h3> : null}
+              
+              {suggestedSelection.length ? <h3>Choose one:</h3> : null}
               {
               //runs twice: 
               //1. based on change of userInput 
