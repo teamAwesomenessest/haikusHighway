@@ -65,7 +65,7 @@ a {
 .background {
     position: relative;
     overflow: hidden;
-    min-height: 600px;
+    min-height: 850px;
     padding-bottom: 10px; //add media query!
 }
 
@@ -78,16 +78,25 @@ a {
 }
 
 .headerImg {
-    width: 35%;
+    width: 30%;
     margin-top: 25px;
-    margin-left: -8px
+    margin-left: 5px
+}
+
+.instructionsImg, .resetImg {
+    position: absolute;
 }
 
 .instructionsImg {
-    width: 22%;
-    position: absolute;
-    top: 80px;
+    width: 20%;
+    top: 60px;
     right: 75px;
+}
+
+.resetImg {
+    width: 12%;
+    top: 380px;
+    right: 120px;
 }
 
 //instructions and reset signs
@@ -157,6 +166,12 @@ input[type="text"], .progressSection > div {
 input[type="text"] {
     width: calc(100% - 5px);
     margin: 10px 0px 20px 5px;
+    transition: box-shadow 0.5s, transform 0.2s;
+}
+
+input[type="text"]:focus {
+    transform: scale(1.01);
+    box-shadow: 1px 1px 3px 1px $color-brown-transparent;
 }
 
 //building section
@@ -174,12 +189,14 @@ input[type="text"] {
     margin: 5px;
     padding: 10px 12px;
     position: relative;
-    transition: background-color 0.5s, color 0.5s;
+    transition: background-color 0.5s, color 0.5s, box-shadow 0.5s, transform 0.2s;
 }
 
 .wordButton:hover, .wordButton:focus {
     background-color: $color-green;
     color: $color-brown;
+    transform: scale(1.05);
+    box-shadow: 1px 1px 3px 1px $color-brown-transparent;
 }
 
 .progressSection {

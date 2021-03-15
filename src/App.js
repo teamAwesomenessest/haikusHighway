@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import './styles/App.scss';
 import headerImg from '././assets/header.svg' //h1 sign
 import backgroundImg from '././assets/road.svg' //road background
-import instructionsImg from '././assets/instructions.svg' //road background
+import instructionsImg from '././assets/instructions.svg' //instruction sign
+import resetImg from '././assets/reset.svg' //reset sign
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
   //whenever user types a single letter it triggers the api call below and provides 10 suggestions
   const handleChange = event => {
     //targets what the user types
-    const textInput = event.target.value
+    const textInput = event.target.value;
     setUserInput(textInput);
     setSuggestedSelection([]); //clear previous options
 
@@ -82,7 +83,7 @@ function App() {
     // callAPI()
     // clearing out the input
     // setUserInput(separateWord);
-    setUserInput('');
+    // setUserInput('');
   }
 
 
@@ -109,7 +110,7 @@ useEffect(() => {
     <div className="background wrapper">
         <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
         <header>
-          <img src={ headerImg } className="headerImg" aria-hidden="true" />
+          <img src={headerImg} className="headerImg" aria-hidden="true" alt="instructions sign which will show haiku building instructions on click" />
           <h1 className="visuallyHidden">Haikus Highway</h1>
           <nav>
             <ul>
@@ -154,6 +155,7 @@ useEffect(() => {
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
                   <p>Lorem ipsum dolor sit amet</p>
                 </div>
+                <img src={resetImg} className="resetImg" aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" />
               </section>
             : null
           }
