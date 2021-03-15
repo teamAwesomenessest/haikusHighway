@@ -133,6 +133,8 @@ useEffect(() => {
               
               {suggestedSelection.length ? <h3>Choose one:</h3> : null}
               {
+
+              
               //runs twice: 
               //1. based on change of userInput 
               //2. runs based off the button click when the user selects their word from the selection and makes second api call
