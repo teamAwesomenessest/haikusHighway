@@ -24,10 +24,11 @@ function App() {
   //whenever user types a single letter it triggers the api call below and provides 10 suggestions
   const handleChange = event => {
     //targets what the user types
-    setUserInput(event.target.value);
+    const textInput = event.target.value
+    setUserInput(textInput);
     setSuggestedSelection([]); //clear previous options
 
-    //validate non alpha characters entered
+    //validate alpha characters entered
     let userInvalidChars = (textInput)=>{
       const regExp = new RegExp('[^a-zA-Z]');
       const invalidCharMatch = textInput.match(regExp);
@@ -38,8 +39,8 @@ function App() {
       } 
     };
     
-    //if invalid characters found, show error, else perform API call
-    if (userInvalidChars(event.target.value) > 0) {
+    //if invalid characters found or deletion resulting in empty input, show error, else perform API call
+    if (userInvalidChars(textInput) > 0 || textInput === '') {
       setIsUserError(true);
       setSuggestedSelection([]); //ensures reset on backspace
     } else {
