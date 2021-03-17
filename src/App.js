@@ -91,13 +91,8 @@ function App() {
 
   const handleClick = (event, separateWord) => {
     event.preventDefault();
-    // console.log(separateWord);
-
-    // countSyllables(separateWord);
-    // console.log( countSyllables(separateWord));
-      const count = syllableCount - countSyllables(separateWord);
-      console.log(count);
-    setSyllableCount(prevState => prevState - countSyllables(separateWord) );
+    const count = syllableCount - countSyllables(separateWord);
+    setSyllableCount(count);
 
     setSelectedWord(separateWord);
 
@@ -105,19 +100,16 @@ function App() {
     // updating wordLines state
 
     const line = [...wordLines]
-      line[currentLine] = `${line[currentLine]} ${separateWord}`;
-    // setWordLines(prevState => `${prevState} ${separateWord}`);
+    line[currentLine] = `${line[currentLine]} ${separateWord}`;
     setWordLines(line);
     
     if (count === 0 && currentLine < 2) {
         const updatedCurrentLine = currentLine + 1;
         setCurrentLine(prevState => prevState + 1);
         setSyllableCount(7);
-        console.log('savveeeee meeee')
 
         if (updatedCurrentLine === 2) {
             setSyllableCount(5);
-            console.log(currentLine)
         } 
     } 
     // clearing suggestedSelection
@@ -140,16 +132,14 @@ useEffect(() => {
                     const filteredSelection = jsonResponse.filter(filteredWord => {
                         return filteredWord.numSyllables <= syllableCount && userInvalidChars(filteredWord.word) === 0
                     })
-                    // console.log(filteredSelection)
-                    // console.log(line1Count)
                     setSuggestedSelection(filteredSelection);
-                    // console.log(suggestedSelection);
                 })
             
         }
 
-}, [syllableCount, currentLine, haikuCompleted])
+}, [syllableCount, currentLine, selectedWord])
 
+    // handleResetClick resets all the states on the page to their initial value so a user can start writing haikus over again
     const handleResetClick = () => {
          setSyllableCount(5);
          setUserInput('');
@@ -161,8 +151,6 @@ useEffect(() => {
          setSelectedWord('');
     }
 
-//   console.log(wordLines);
-//   console.log(line1Count);
   return (
     <>
     <div className="background wrapper">
