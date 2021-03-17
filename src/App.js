@@ -180,7 +180,7 @@ useEffect(() => {
                         }
 
                         <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-                      <h4>You have {syllableCount} syllables left in this line.</h4>
+                        <h4>You have {syllableCount} syllables left in this line.</h4>
                         {suggestedSelection.length ? <h3>Choose one:</h3> : null}
                         {
                             //runs twice: 
