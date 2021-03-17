@@ -176,7 +176,13 @@ useEffect(() => {
           <h1 className="visuallyHidden">Haikus Highway</h1>
           <nav>
             <ul>
-              <li aria-label="Instructions"><button className="signButton" onClick={() => {setOpenInstructions(true)}}><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></button></li>
+              {/* <li aria-label="Instructions"><button className="signButton" onClick={() => {setOpenInstructions(true)}}><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></button></li> */}
+              <li className="sign instructions">
+                <div>
+                  <button aria-label="Click to see instructions" onClick={() => { setOpenInstructions(true) }}>Instructions</button>
+                  <span className="signPole"></span>
+                </div>
+              </li>
             </ul>
           </nav>
         </header>
@@ -226,7 +232,13 @@ useEffect(() => {
                   <p>{wordLines[1]}</p>
                   <p>{wordLines[2]}</p>
                 </div>
-                <img src={resetImg} className="resetImg" onClick={handleResetClick} aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" />
+                {/* <img src={resetImg} className="resetImg" onClick={handleResetClick} aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" /> */}
+              <div className="sign">
+                <div className="reset">
+                  <button aria-label="Click to reset Haiku" onClick={handleResetClick}>Reset</button>
+                  <span className="signPole"></span>
+                </div>
+              </div>
               </section>
             : null
           }
@@ -235,7 +247,7 @@ useEffect(() => {
 
       <footer>
         <div className="wrapper">
-          <p>Created at <a href="https://www.junocollege.com/" target="_blank"><span>Juno College</span></a></p>
+          <p>Created at <span><a href="https://www.junocollege.com/" target="_blank" rel="noreferrer">Juno College</a></span></p>
           <p>Made by ....</p>
         </div>
       </footer>
