@@ -79,7 +79,7 @@ function App() {
       setSuggestedSelection([]); //ensures reset on backspace
     } else {
       setIsUserError(false);
-      fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
+      fetch(`https://api.datamuse.com/sug?s=${userInput}&max=10`)
       .then(response => response.json())
       .then(jsonResponse => {
           let wordFound = false;
@@ -142,7 +142,7 @@ useEffect(() => {
         if (currentLine === 2 && syllableCount === 0) {
             setHaikuCompleted(true);
         } else {
-            fetch(`http://api.datamuse.com/words?lc=${selectedWord}&md=s&max=10`)
+            fetch(`https://api.datamuse.com/words?lc=${selectedWord}&md=s&max=10`)
                 .then(response => response.json())
                 .then(jsonResponse => {
                     const filteredSelection = jsonResponse.filter(filteredWord => {
