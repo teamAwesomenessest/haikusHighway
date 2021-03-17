@@ -2,33 +2,88 @@ import { useState, useEffect } from 'react';
 import './styles/App.scss';
 import headerImg from '././assets/header.svg' //h1 sign
 import backgroundImg from '././assets/road.svg' //road background
-import instructionsImg from '././assets/instructions.svg' //road background
+import instructionsImg from '././assets/instructions.svg' //instruction sign
+import resetImg from '././assets/reset.svg' //reset sign
 
 function App() {
 
   // initialize state to track line one syllable count, with a maximum set to 5 syllables
-  const [line1Count, setLine1Count] = useState(5);
+  const [syllableCount, setSyllableCount] = useState(5);
+
   //initialize state to make a dynamic api call based on userInput
   const [userInput, setUserInput] = useState('');
 
+  // error message variable
+  const [isUserError, setIsUserError] = useState(false);
+
   //create a state to hold user`s word for line 1
-  const [wordsLine1, setWordsLine1] = useState('');
+  const [wordLines, setWordLines] = useState(['', '', '']);
+
+  //create a state to represent a current line a user selects words for
+  const [currentLine, setCurrentLine] = useState(0);
 
   //a state to store the selection retrieved from api based on userInput
   const [suggestedSelection, setSuggestedSelection] = useState([]);
 
+  const [haikuCompleted, setHaikuCompleted] = useState(false)
+
+  const [selectedWord, setSelectedWord] = useState('');
+
+    let countSyllables = (sepWordModified) => {
+        sepWordModified = sepWordModified.toLowerCase();
+        if (sepWordModified.length <= 3) { return 1; }
+        sepWordModified = sepWordModified.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+        sepWordModified = sepWordModified.replace(/^y/, '');
+        return sepWordModified.match(/[aeiouy]{1,2}/g).length;
+    }
+
+    //validate alpha characters entered
+    let userInvalidChars = (string) => {
+        const regExp = new RegExp("[^a-zA-Z'-]");
+        const invalidCharMatch = string.match(regExp);
+        if (invalidCharMatch != null) {
+            return invalidCharMatch.length;
+        } else {
+            return 0
+        }
+    };
 
   //whenever user types a single letter it triggers the api call below and provides 10 suggestions
   const handleChange = event => {
     //targets what the user types
-    setUserInput(event.target.value);
+    const textInput = event.target.value;
+    setUserInput(textInput);
+    setSuggestedSelection([]); //clear previous options
 
-    fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
+    userInvalidChars(textInput);
+      
+    //if invalid characters found or deletion resulting in empty input, show error, else perform API call
+      if (userInvalidChars(textInput) > 0 || textInput === '' || countSyllables(textInput) > syllableCount) {
+      setIsUserError(true);
+      setSuggestedSelection([]); //ensures reset on backspace
+    } else {
+      setIsUserError(false);
+      fetch(`http://api.datamuse.com/sug?s=${userInput}&max=10`)
       .then(response => response.json())
       .then(jsonResponse => {
-        setSuggestedSelection(jsonResponse);
-        console.log(suggestedSelection);
+          let wordFound = false;
+          const filteredSelection = jsonResponse.filter(filteredWord => {
+              if (filteredWord.word === textInput) {
+                  wordFound = true;
+              } 
+              
+              return countSyllables(filteredWord.word) <= syllableCount && userInvalidChars(filteredWord.word) === 0
+          })
+
+            if (!wordFound) {
+                const userObject = {
+                    word: textInput.toLowerCase()
+                }
+                filteredSelection.push(userObject);
+            }
+        setSuggestedSelection(filteredSelection);
       })
+    }
   }
 
   // when a user click on a button (chooses a word), it calls a handleClick function
@@ -36,57 +91,73 @@ function App() {
 
   const handleClick = (event, separateWord) => {
     event.preventDefault();
-    console.log(separateWord);
-    
-    let countSyllables = (sepWordModified) => {
-    sepWordModified = sepWordModified.toLowerCase();
-    if (sepWordModified.length <= 3) { return 1; }
-    sepWordModified = sepWordModified.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
-    sepWordModified = sepWordModified.replace(/^y/, '');
-    return sepWordModified.match(/[aeiouy]{1,2}/g).length;
-  }
+    // console.log(separateWord);
 
     // countSyllables(separateWord);
-    console.log( countSyllables(separateWord));
-    setLine1Count(prevState => prevState - countSyllables(separateWord) );
- 
-    // handleClick stores a value of the chosen word in wordsLine1 state so it can be displayed on the page later on
-    // updating wordsLine1 state
-    setWordsLine1(prevState => `${prevState} ${separateWord}`);
+    // console.log( countSyllables(separateWord));
+      const count = syllableCount - countSyllables(separateWord);
+      console.log(count);
+    setSyllableCount(prevState => prevState - countSyllables(separateWord) );
 
+    setSelectedWord(separateWord);
+
+    // handleClick stores a value of the chosen word in wordLines state so it can be displayed on the page later on
+    // updating wordLines state
+
+    const line = [...wordLines]
+      line[currentLine] = `${line[currentLine]} ${separateWord}`;
+    // setWordLines(prevState => `${prevState} ${separateWord}`);
+    setWordLines(line);
+    
+    if (count === 0 && currentLine < 2) {
+        const updatedCurrentLine = currentLine + 1;
+        setCurrentLine(prevState => prevState + 1);
+        setSyllableCount(7);
+        console.log('savveeeee meeee')
+
+        if (updatedCurrentLine === 2) {
+            setSyllableCount(5);
+            console.log(currentLine)
+        } 
+    } 
     // clearing suggestedSelection
     setSuggestedSelection([]);
 
-    // callAPI()
-    // clearing out the input
-    setUserInput(separateWord);
+   
+    setUserInput('');
   }
-
 
   //use useEffect hook to get filtered selection when line1Count changes and limits number of syllables in remaining words.
 useEffect(() => {
         //second api using initial user input that was submitted that was used for the first api call
-        fetch(`http://api.datamuse.com/words?lc=${userInput}&md=s&max=10`)
-            .then(response => response.json())
-            .then(jsonResponse => {
-                const filteredSelection = jsonResponse.filter(filteredWord => {
-                    return filteredWord.numSyllables <= line1Count;
-                })
-                console.log(filteredSelection)
-                console.log(line1Count)
-                setSuggestedSelection(filteredSelection);
-                console.log(suggestedSelection);
-            })
-}, [line1Count])
 
-//   console.log(wordsLine1);
+        if (currentLine === 2 && syllableCount === 0) {
+            setHaikuCompleted(true);
+        } else {
+            fetch(`http://api.datamuse.com/words?lc=${selectedWord}&md=s&max=10`)
+                .then(response => response.json())
+                .then(jsonResponse => {
+                    const filteredSelection = jsonResponse.filter(filteredWord => {
+                        return filteredWord.numSyllables <= syllableCount && userInvalidChars(filteredWord.word) === 0
+                    })
+                    // console.log(filteredSelection)
+                    // console.log(line1Count)
+                    setSuggestedSelection(filteredSelection);
+                    // console.log(suggestedSelection);
+                })
+            
+        }
+
+}, [syllableCount, currentLine, haikuCompleted])
+
+//   console.log(wordLines);
 //   console.log(line1Count);
   return (
-<>
+    <>
     <div className="background wrapper">
-        <img src={backgroundImg} className="backgroundImg" aria-hidden="true" />
+        <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
         <header>
-          <img src={ headerImg } className="headerImg" aria-hidden="true" />
+          <img src={headerImg} className="headerImg" aria-hidden="true" alt="instructions sign which will show haiku building instructions on click" />
           <h1 className="visuallyHidden">Haikus Highway</h1>
           <nav>
             <ul>
@@ -97,34 +168,49 @@ useEffect(() => {
 
         <main>
           {/* input form */}
-          <section className="wordInputSection">
-            <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
-              <label htmlFor="wordInput">Enter a word for the first line:</label>
-              {/* make input invisible on click using css*/}
-              <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-              <h3>Choose one:</h3>
-              {
-              //runs twice: 
-              //1. based on change of userInput 
-              //2. runs based off the button click when the user selects their word from the selection and makes second api call
-              suggestedSelection.map((separateWord) => {
-                return (
-                  <button className="wordButton" key={separateWord.score} onClick={(event) => handleClick(event, separateWord.word)}>  {separateWord.word} </button>)
-                })
-              }
-            </form>
-          </section>
+          {
+              haikuCompleted
+              ? null
+              : <>
+                <section className="wordInputSection">
+                    <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
+                        <label htmlFor="wordInput">Enter a word for the first line:</label>
 
+                        {/* show error message if invalid characters entered */
+                            isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
+                        }
+
+                        <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
+
+                        {suggestedSelection.length ? <h3>Choose one:</h3> : null}
+                        {
+                            //runs twice: 
+                            //1. based on change of userInput 
+                            //2. runs based off the button click when the user selects their word from the selection and makes second api call
+                            suggestedSelection.map((separateWord, index) => {
+                                return (
+                                    <button className="wordButton" key={index} onClick={(event) => handleClick(event, separateWord.word)}>  {separateWord.word} </button>)
+                            })
+                        }
+                    </form>
+                </section>
+              </>
+          }
           {/* constructed haiku */}
-          <section className="progressSection">
-            <h3>Your Haiku in Progress...</h3>
-            <div>
-          {/* display user`s selected words for line one here */}
-              <p>{wordsLine1}</p>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-              <p>Lorem ipsum dolor sit amet</p>
-            </div>
-          </section>
+          {wordLines[0] 
+            ? 
+            <section className="progressSection">
+                <h3>Your Haiku in Progress...</h3>
+                <div>
+              {/* display user`s selected words for line one here */}
+                  <p>{wordLines[0]}</p>
+                  <p>{wordLines[1]}</p>
+                  <p>{wordLines[2]}</p>
+                </div>
+                <img src={resetImg} className="resetImg" aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" />
+              </section>
+            : null
+          }
         </main>
       </div>
 
@@ -136,7 +222,6 @@ useEffect(() => {
       </footer>
 
     </>
-  );
+  )
 }
-
 export default App;
