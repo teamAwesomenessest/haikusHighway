@@ -3,6 +3,8 @@ import './styles/App.scss';
 
 //component imports
 import Instructions from './Instructions';
+import HaikuCollection from './HaikuCollection';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 //image imports
 import headerImg from '././assets/header.svg' //h1 sign
@@ -167,8 +169,12 @@ useEffect(() => {
          setSelectedWord('');
     }
 
+    const handleAddHaiku = () => {
+        console.log('Hello');
+    }
+
   return (
-    <>
+    <Router>
     <div className="background wrapper">
         <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
         <header>
@@ -189,8 +195,8 @@ useEffect(() => {
           }
           {/* input form */
               haikuCompleted
-              ? null
-              : <>
+              ? <button onClick={handleAddHaiku}>Add Haiku</button>
+              : <button>
                 <section className="wordInputSection">
                     <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
                         <label htmlFor="wordInput">Enter a word for the first line:</label>
@@ -213,7 +219,7 @@ useEffect(() => {
                         }
                     </form>
                 </section>
-              </>
+              </button>
           }
           {/* constructed haiku */}
           {wordLines[0] 
@@ -230,6 +236,7 @@ useEffect(() => {
               </section>
             : null
           }
+          <Route path="/collection" component={HaikuCollection}/>
         </main>
       </div>
 
@@ -240,7 +247,7 @@ useEffect(() => {
         </div>
       </footer>
 
-    </>
+    </Router>
   )
 }
 export default App;
