@@ -150,6 +150,17 @@ useEffect(() => {
 
 }, [syllableCount, currentLine, haikuCompleted])
 
+    const handleResetClick = () => {
+         setSyllableCount(5);
+         setUserInput('');
+         setIsUserError(false);
+         setWordLines(['', '', '']);
+         setCurrentLine(0);
+         setHaikuCompleted(false);
+         setSuggestedSelection([]);
+         setSelectedWord('');
+    }
+
 //   console.log(wordLines);
 //   console.log(line1Count);
   return (
@@ -207,7 +218,7 @@ useEffect(() => {
                   <p>{wordLines[1]}</p>
                   <p>{wordLines[2]}</p>
                 </div>
-                <img src={resetImg} className="resetImg" aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" />
+                <img src={resetImg} className="resetImg" onClick={handleResetClick} aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" />
               </section>
             : null
           }
@@ -216,7 +227,7 @@ useEffect(() => {
 
       <footer>
         <div className="wrapper">
-          <p>Created at <a href="www.junocollege.com">Juno College</a></p>
+                  <p>Created at <a href="https://junocollege.com/">Juno College</a></p>
           <p>Made by ....</p>
         </div>
       </footer>
