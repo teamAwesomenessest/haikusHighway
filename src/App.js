@@ -176,7 +176,7 @@ useEffect(() => {
           <h1 className="visuallyHidden">Haikus Highway</h1>
           <nav>
             <ul>
-              <li aria-label="Instructions"><button className="signButton" onClick={() => {setOpenInstructions(true)}}><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></button></li>
+              <li aria-label="Instructions"><button className="signButton" onClick={() => {setOpenInstructions(true)}}><img src={instructionsImg} className="instructionsImg" alt="instructions image" aria-hidden="true" /></button></li>
             </ul>
           </nav>
         </header>
@@ -235,7 +235,7 @@ useEffect(() => {
 
       <footer>
         <div className="wrapper">
-          <p>Created at <a href="https://www.junocollege.com/" target="_blank"><span>Juno College</span></a></p>
+          <p>Created at <a href="https://www.junocollege.com/" target="_blank" rel="noreferrer"><span>Juno College</span></a></p>
           <p>Made by Rebecca MacDonald, Anton Montrezor, Sarah Pilato and Jaime Robbins.</p>
         </div>
       </footer>
