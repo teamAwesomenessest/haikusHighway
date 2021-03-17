@@ -193,14 +193,14 @@ useEffect(() => {
               : <>
                 <section className="wordInputSection">
                     <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
-                        <label htmlFor="wordInput">Enter a word for the first line:</label>
+                        <label htmlFor="wordInput">Enter a word for line {currentLine + 1 }:</label>
 
                         {/* show error message if invalid characters entered */
                             isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
                         }
 
                         <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-                        <h4>You have {syllableCount} syllables left in this line.</h4>
+                        <h4>You have {syllableCount} syllables left in line {currentLine + 1 }.</h4>
                         {suggestedSelection.length ? <h3>Choose one:</h3> : null}
                         {
                             //runs twice: 
@@ -236,7 +236,7 @@ useEffect(() => {
       <footer>
         <div className="wrapper">
           <p>Created at <a href="https://www.junocollege.com/" target="_blank"><span>Juno College</span></a></p>
-          <p>Made by ....</p>
+          <p>Made by Rebecca MacDonald, Anton Montrezor, Sarah Pilato and Jaime Robbins.</p>
         </div>
       </footer>
 
