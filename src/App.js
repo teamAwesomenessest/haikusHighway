@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
 import './styles/App.scss';
+
+//component imports
+import Instructions from './Instructions';
+
+//image imports
 import headerImg from '././assets/header.svg' //h1 sign
 import backgroundImg from '././assets/road.svg' //road background
 import instructionsImg from '././assets/instructions.svg' //instruction sign
@@ -28,6 +33,9 @@ function App() {
   const [haikuCompleted, setHaikuCompleted] = useState(false)
 
   const [selectedWord, setSelectedWord] = useState('');
+
+  //dictates opening and closing of instructions modal
+  const [openInstructions, setOpenInstructions] = useState(false);
 
     let countSyllables = (sepWordModified) => {
         sepWordModified = sepWordModified.toLowerCase();
@@ -161,12 +169,18 @@ useEffect(() => {
           <h1 className="visuallyHidden">Haikus Highway</h1>
           <nav>
             <ul>
-              <li aria-label="Instructions"><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></li>
+              <li aria-label="Instructions"><button className="signButton" onClick={() => {setOpenInstructions(true)}}><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></button></li>
             </ul>
           </nav>
         </header>
 
         <main>
+          { //instructions modal mounted on click of instructions button
+            openInstructions
+              ? <Instructions openInstructionsFn={setOpenInstructions}/>
+              : null
+          }
+
           {/* input form */}
           {
               haikuCompleted

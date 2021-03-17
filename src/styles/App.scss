@@ -133,6 +133,92 @@ li .instructions {
     top: 0px;
 }
 
+/* /||||||||||| MODAL ||||||||||| */
+
+//background
+.modal {
+    position: fixed;
+    z-index: 30;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: $color-light-transparent;
+}
+
+//content
+.modal-content {
+    background-color: $color-brown;
+    color: $color-light;
+    margin: 2% auto;
+    padding: 15px;
+    border-radius: 15px;
+    width: 90%;
+    position: relative;
+
+    //light inner border
+    div {
+        border: 4px solid $color-light;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    h2 {
+        margin: 10px 0;
+    } 
+
+    ol {
+        list-style: decimal;
+    }
+
+    li {
+        margin-left: 25px;
+    }
+
+    p {
+        margin-left: 10px;
+    }
+
+    .haikuExample {
+        padding: 0;
+    }
+
+    //MQ: increase width
+    @include tablet {
+        & {
+            padding: 10px;
+        }
+    }
+}
+
+//close button
+.modal-close {
+    color: $color-light;
+    font-size: 4rem;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    margin: 0;
+    padding: 0;
+    z-index: 20;
+    background-color: transparent;
+    border: none;
+    transition: transform 0.3s linear; //scale on hover
+
+    //MQ: decrease size of close button
+    @include tablet {
+        & {
+            font-size: 3.5rem;
+        }
+    }
+}
+
+.modal-close:hover, .modal-close:focus {
+    transform: scale(1.1);
+} 
+
+
 /* ||||||||||| FORMS ||||||||||| */
 
 section {
