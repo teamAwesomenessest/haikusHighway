@@ -1,10 +1,8 @@
 export default function Instructions(props) {
 
-    console.log(props)
-
     return (
         
-        <div className="modal">
+        <section className="modal">
             <div className="modal-content">
                 <div>
                     <button className="modal-close" aria-label="close button" onClick={() => { props.openInstructionsFn(false) }}>&times;</button>
@@ -25,7 +23,7 @@ export default function Instructions(props) {
                     </ol>
                 </div>
             </div>
-        </div>
+        </section>
 
     )
 

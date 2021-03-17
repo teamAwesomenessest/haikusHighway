@@ -83,6 +83,7 @@ a {
     margin-left: 5px
 }
 
+//instructions and reset signs
 .instructionsImg, .resetImg {
     position: absolute;
 }
@@ -99,30 +100,35 @@ a {
     right: 120px;
 }
 
-//instructions and reset signs
-.sign {
-    background-color: $color-brown;
-    padding: 30px 10px;
-    border-radius: 8px;
-    width: unset;
-    color: $color-light;
-    font-size: 25px;
-    position: relative;
-
-    span:first-of-type {
-        border: solid 3px $color-light;
-        border-radius: 8px;
-        padding: 15px;
-    }
-
-    span:nth-of-type(2) {
-        height: 30px;
-        width: 10px;
-        background-color: $color-brown;
-        position: absolute;
-        top: 0;
-    }
+.signButton {
+    border: none;
+    background: transparent;
 }
+
+
+// .sign {
+//     background-color: $color-brown;
+//     padding: 30px 10px;
+//     border-radius: 8px;
+//     width: unset;
+//     color: $color-light;
+//     font-size: 25px;
+//     position: relative;
+
+//     span:first-of-type {
+//         border: solid 3px $color-light;
+//         border-radius: 8px;
+//         padding: 15px;
+//     }
+
+//     span:nth-of-type(2) {
+//         height: 30px;
+//         width: 10px;
+//         background-color: $color-brown;
+//         position: absolute;
+//         top: 0;
+//     }
+// }
 
 nav li {
     display: inline;
@@ -306,4 +312,8 @@ footer {
     color: $color-light;
     text-align: center;
     padding: 20px 0;
+
+    p {
+        @include animatedUnderline($color-brown, "span");
+    }
 }

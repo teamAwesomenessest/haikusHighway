@@ -42,7 +42,15 @@ function App() {
         if (sepWordModified.length <= 3) { return 1; }
         sepWordModified = sepWordModified.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
         sepWordModified = sepWordModified.replace(/^y/, '');
-        return sepWordModified.match(/[aeiouy]{1,2}/g).length;
+        sepWordModified = sepWordModified.match(/[aeiouy]{1,2}/g);
+
+        if (sepWordModified != null) {
+          return sepWordModified.length;
+        } else {
+          return 0
+        }
+
+        //return sepWordModified.match(/[aeiouy]{1,2}/g).length;
     }
 
     //validate alpha characters entered
@@ -227,7 +235,7 @@ useEffect(() => {
 
       <footer>
         <div className="wrapper">
-                  <p>Created at <a href="https://junocollege.com/">Juno College</a></p>
+          <p>Created at <a href="https://www.junocollege.com/" target="_blank"><span>Juno College</span></a></p>
           <p>Made by ....</p>
         </div>
       </footer>

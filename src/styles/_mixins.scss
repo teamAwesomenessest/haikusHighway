@@ -28,7 +28,7 @@
 }
 
 //animated underline on hover
-@mixin animated-underline($color, $el) {
+@mixin animatedUnderline($color, $el) {
     a {
         position: relative;
     }
