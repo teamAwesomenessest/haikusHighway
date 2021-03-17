@@ -153,7 +153,7 @@ useEffect(() => {
 //   console.log(wordLines);
 //   console.log(line1Count);
   return (
-<>
+    <>
     <div className="background wrapper">
         <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
         <header>
@@ -223,4 +223,5 @@ useEffect(() => {
 
     </>
   )
+}
 export default App;
