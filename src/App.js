@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './styles/App.scss';
+import firebase from './firebase';
 
 //component imports
 import Instructions from './Instructions';
@@ -169,8 +170,15 @@ useEffect(() => {
          setSelectedWord('');
     }
 
-    const handleAddHaiku = () => {
-        console.log('Hello');
+    // handleAddHaiku pushes user created haiku to firebase database where it will be stored
+    // it will later be displayed in Haiku Collection component 
+    const handleAddHaiku = (event) => {
+        event.preventDefault();
+        // we create a reference to our database
+        const dbRef = firebase.database().ref();
+        dbRef.push(wordLines)
+
+        handleResetClick();
     }
 
   return (
@@ -195,9 +203,8 @@ useEffect(() => {
           }
           {/* input form */
               haikuCompleted
-              ? <button onClick={handleAddHaiku}>Add Haiku</button>
-              : <button>
-                <section className="wordInputSection">
+              ? <button onClick={event => handleAddHaiku(event)}>Add Haiku</button>
+              : <section className="wordInputSection">
                     <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
                         <label htmlFor="wordInput">Enter a word for the first line:</label>
 
@@ -219,7 +226,7 @@ useEffect(() => {
                         }
                     </form>
                 </section>
-              </button>
+              
           }
           {/* constructed haiku */}
           {wordLines[0] 
