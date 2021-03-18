@@ -3,7 +3,7 @@
     @return $value / ($value * 0 + 1);
 }
 
-@mixin fluid-font-size($min-font-size, $max-font-size, $min-vw: 32rem, $max-vw: 120rem) {
+@mixin fluidFontSize($min-font-size, $max-font-size, $min-vw: 32rem, $max-vw: 120rem) {
     
     $u1: unit($min-font-size);
     $u2: unit($max-font-size);
@@ -34,9 +34,9 @@
     }
     a:after {
         content: '';
-        height: 2px;
+        height: 1.5px;
         position: absolute;
-        bottom: -2px;
+        bottom: -5px;
         background: $color; 
         width: 0;
         left: 50%;
@@ -67,7 +67,25 @@
 
 //media-queries
 @mixin tablet {
-    @media (max-width: 840px) {
+    @media (max-width: 900px) {
+        @content;
+    }
+}
+
+@mixin largePhone {
+    @media (max-width: 550px) {
+        @content;
+    }
+}
+
+@mixin smallPhone {
+    @media (max-width: 450px) {
+        @content;
+    }
+}
+
+@mixin minWidth {
+    @media (min-width: 1200px) {
         @content;
     }
 }

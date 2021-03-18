@@ -15,39 +15,70 @@ html {
 body {
     background-color: $color-green-transparent;
     font-family: $font-body;
-    @include fluid-font-size(1.8rem, 2rem);
+    @include fluidFontSize(1.7rem, 2rem);
 }
 
 //react root div
 body > div {
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
 .wrapper {
-    max-width: 1300px;
+    max-width: 1200px;
     width: 98%;
     margin: 0 auto;
 }
 
 main {
-    padding-bottom: 30px;
     display: flex;
     flex-direction: column;
     margin: 0 10px;
     position: relative;
     top: -20vw;
-    margin-bottom: -300px;
+    width: 100%;
+
+    //MQ: center flex items and remove margin
+    @include tablet {
+        & {
+            margin: 0;
+            align-items: center;
+        }
+    }
+
+    //MQ: move up on page
+    @include largePhone {
+        & {
+            top: -28vw;
+        }
+    }
+
+    @include smallPhone {
+        & {
+            top: -23vw;
+        }
+    }
+
+    //hard code top position beyond max width
+    @include minWidth {
+        & {
+            top: -245px;
+        }
+    }
+}
+
+section {
     width: 100%;
 }
 
 h2 {
-    @include fluid-font-size(2.4rem, 2.8rem);
+    @include fluidFontSize(2.2rem, 2.8rem);
     margin-bottom: 15px;
 }
 
 h3, .wordInputForm label {
-    @include fluid-font-size(2rem, 2.5rem);
+    @include fluidFontSize(1.8rem, 2.2rem);
 }
 
 p {
@@ -65,11 +96,25 @@ a {
 .background {
     position: relative;
     overflow: hidden;
-    min-height: 850px;
-    padding-bottom: 10px; //add media query!
+    min-height: 860px;
+    max-height: 920px;
+    padding-bottom: 10px;
+
+    @include tablet {
+        & {
+            max-height: unset;
+        }
+    }
+
+    @include largePhone {
+        & {
+            max-height: unset;
+            min-height: 90vh;
+        }
+    }
 }
 
-.backgroundImg {
+.backgroundImg, .backgroundImgMobile {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -77,61 +122,148 @@ a {
     z-index: -10;
 }
 
+.backgroundImg {
+    @include largePhone {
+        display: none;
+    }
+}
+
+.backgroundImgMobile {
+    display: none;
+
+    @include largePhone {
+        display: block;
+    }
+}
+
 .headerImg {
     width: 30%;
     margin-top: 25px;
-    margin-left: 5px
+    margin-left: 5px;
+
+    //MQ: increase size
+    @include tablet {
+        & {
+            width: 40%;
+        }
+    }
+
+    @include largePhone {
+        & {
+            width: 50%;
+        }
+    }
+
+    @include smallPhone {
+        & {
+            width: 60%;
+        }
+    }
 }
 
-//instructions and reset signs
-.instructionsImg, .resetImg {
+//constructing instructions and reset signs
+.sign {
+    background-color: $color-brown;
+    padding: 8px;
+    border-radius: 8px;
+    width: unset;
+    color: $color-light;
+    @include fluidFontSize(1.8rem, 3rem);
     position: absolute;
+    box-shadow: 2px 1px 2px 1px $color-brown-transparent;
+
+    div {
+        border: solid $color-light 3px;
+        border-radius: 5px;
+        padding: 8px;
+        position: relative;
+    }
+
+    button {
+        border: none;
+        background: transparent;
+        color: $color-light;
+        font-family: $font-body;
+    }
+
+    .signPole {
+        background-color: $color-brown;
+        width: 10px;
+        height: 140px;
+        position: absolute;
+        box-shadow: 2px 0px 2px 1px $color-brown-transparent;
+        right: 45%;
+        top: 55px;
+        z-index: -10;
+    }
+
+    &.instructions {
+        top: 60px;
+        right: 95px;
+    }
+
+    &.reset {
+        top: 470px;
+        right: 100px;
+    }
+
+    //MQ: hide pole, change position and color
+    @include tablet {
+        & {
+            background-color: $color-light;
+            color: $color-brown;
+
+            div {
+                border: solid $color-brown 3px;
+                padding: 5px;
+            }
+
+            button {
+                color: $color-brown;
+                font-weight: 500;
+            }
+        
+            .signPole {
+                display: none;
+            }
+
+            &.instructions {
+                top: calc(23vw - 10px);
+                right: 5%;
+            }
+
+            &.reset {
+                position: unset;
+                display: inline-block;
+                margin-left: 5%;
+            }
+        }
+    }
+
+    @include largePhone {
+        & {
+            padding: 5px;
+
+            & div {
+                padding: 3px;
+            }
+
+            &.instructions {
+                top: calc(29vw - 10px);
+            }
+        }
+    }
+
+    @include smallPhone {
+        &.instructions {
+            top: calc(45vw - 10px);
+        }
+    }
+    
 }
-
-.instructionsImg {
-    width: 20%;
-    top: 60px;
-    right: 75px;
-}
-
-.resetImg {
-    width: 12%;
-    top: 380px;
-    right: 120px;
-}
-
-.signButton {
-    border: none;
-    background: transparent;
-}
-
-
-// .sign {
-//     background-color: $color-brown;
-//     padding: 30px 10px;
-//     border-radius: 8px;
-//     width: unset;
-//     color: $color-light;
-//     font-size: 25px;
-//     position: relative;
-
-//     span:first-of-type {
-//         border: solid 3px $color-light;
-//         border-radius: 8px;
-//         padding: 15px;
-//     }
-
-//     span:nth-of-type(2) {
-//         height: 30px;
-//         width: 10px;
-//         background-color: $color-brown;
-//         position: absolute;
-//         top: 0;
-//     }
-// }
 
 nav li {
-    display: inline;
+    display: inline-block;
 }
 
 li .instructions {
@@ -196,6 +328,16 @@ li .instructions {
             padding: 10px;
         }
     }
+    
+    @include largePhone {
+        & {
+            width: 95%;
+        }
+
+        & div {
+            padding: 12px;
+        }
+    }
 }
 
 //close button
@@ -225,40 +367,79 @@ li .instructions {
 } 
 
 
-/* ||||||||||| FORMS ||||||||||| */
+/* ||||||||||| INPUT + PROGRESS SECTIONS ||||||||||| */
 
-section {
+.wordInputSection, .progressSection {
     padding: 30px;
     width: 60%;
     background-color: $color-light-transparent;
     box-shadow: 2px 2px 6px 4px $color-brown-transparent;
     border-radius: 6px;
+
+    //MQ: increase width
+    @include tablet {
+        & {
+            width: 90%;
+        }
+    }
+
+    @include largePhone {
+        & {
+            padding: 18px;
+        }
+    }
 }
 
-fieldset {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    // justify-content: space-between;
-    align-items: center;
+.progressSection {
+    margin: 30px 0 10px; 
+    
+    h3 {
+        margin-bottom: 15px;
+    }
+
+    div:not(.sign >) {
+        margin: 10px 0 5px;
+    }
+
+    //MQ: adjust margin and center
+    @include tablet {
+        & {
+            margin: 30px auto 10px;
+        }
+    }
 }
 
-input[type="text"], .progressSection > div, .wordButton {
+input[type="text"], .progressSection > div:not(.sign), .wordButton {
     background-color: $color-brown;
     border-radius: 5px;
     color: $color-light;
     border: none;
 }
 
-input[type="text"], .progressSection > div {
+input[type="text"], .progressSection > div:not(.sign) {
     padding: 15px;
     width: 100%;
+
+    //MQ: reduce padding
+    @include largePhone {
+        & {
+            padding: 12px;
+        }
+    }
 }
 
 input[type="text"] {
     width: calc(100% - 5px);
     margin: 10px 0px 20px 5px;
     transition: box-shadow 0.5s, transform 0.2s;
+
+    //MQ: shift left to align with buttons
+    @include smallPhone {
+        & {
+            margin: 10px 0px 20px 3px;
+            width: calc(100% - 3px);
+        }
+    }
 }
 
 input[type="text"]:focus {
@@ -266,13 +447,21 @@ input[type="text"]:focus {
     box-shadow: 1px 1px 3px 1px $color-brown-transparent;
 }
 
-//building section
+//haiku building section
 .wordInputSection {
     align-self: flex-end;
     margin-right: 150px;
 
     h3 {
         margin-bottom: 5px;
+    }
+
+    //MQ: unset alignment and remove margin
+    @include tablet {
+        & {
+            align-self: unset;
+            margin-right: 0;
+        }
     }
 }
 
@@ -282,6 +471,13 @@ input[type="text"]:focus {
     padding: 10px 12px;
     position: relative;
     transition: background-color 0.5s, color 0.5s, box-shadow 0.5s, transform 0.2s;
+
+    //MQ: reduce space between
+    @include smallPhone {
+        & {
+            margin: 3px;
+        }
+    }
 }
 
 .wordButton:hover, .wordButton:focus {
@@ -289,18 +485,6 @@ input[type="text"]:focus {
     color: $color-brown;
     transform: scale(1.05);
     box-shadow: 1px 1px 3px 1px $color-brown-transparent;
-}
-
-.progressSection {
-    margin: 30px 0; 
-    
-    h3 {
-        margin-bottom: 15px;
-    }
-
-    div {
-        margin: 10px 0 5px;
-    }
 }
 
 /* ||||||||||| FOOTER ||||||||||| */
@@ -311,9 +495,29 @@ footer {
     border-top: $color-light 5px solid;
     color: $color-light;
     text-align: center;
-    padding: 20px 0;
+    padding: 20px 10px;
+    box-shadow: 0px -4px 6px $color-brown;
 
     p {
-        @include animatedUnderline($color-brown, "span");
+        @include animatedUnderline($color-light, "span");
+    }
+
+    img {
+        width: 50px;
+    }
+
+    > div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .footerImgRight {
+        rotate: 180deg;
+    }
+
+    @include largePhone {
+        img {
+            display: none;
+        }
     }
 }
