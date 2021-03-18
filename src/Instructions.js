@@ -1,4 +1,4 @@
-export default function Instructions(props) {
+function Instructions(props) {
 
     return (
         
@@ -28,5 +28,5 @@ export default function Instructions(props) {
     )
 
 }
-
+export default Instructions;
 

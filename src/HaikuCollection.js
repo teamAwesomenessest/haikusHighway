@@ -1,7 +1,7 @@
 import firebase from './firebase';
 import { useState, useEffect } from 'react';
 
-const HaikuCollection = () => {
+function HaikuCollection() {
     // create a state to hold haiku collection retrieved from the database
     const [haikuCollection, setHaikuCollection] = useState([]);
     // create a variable that holds a reference to our database
@@ -33,7 +33,7 @@ const HaikuCollection = () => {
     }
 
     return (
-        <section>
+        <section className="collectionSection">
             <h2>Haiku Collection</h2>
             {   
                 // mapping through haikuCollection that represents an array with arrays (individual haiku)
