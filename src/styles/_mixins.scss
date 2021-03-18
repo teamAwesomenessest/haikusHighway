@@ -71,3 +71,21 @@
         @content;
     }
 }
+
+@mixin largePhone {
+    @media (max-width: 550px) {
+        @content;
+    }
+}
+
+@mixin smallPhone {
+    @media (max-width: 450px) {
+        @content;
+    }
+}
+
+@mixin minWidth {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}

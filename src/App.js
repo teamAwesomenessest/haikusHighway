@@ -6,9 +6,11 @@ import Instructions from './Instructions';
 
 //image imports
 import headerImg from '././assets/header.svg' //h1 sign
-import backgroundImg from '././assets/road.svg' //road background
-import instructionsImg from '././assets/instructions.svg' //instruction sign
-import resetImg from '././assets/reset.svg' //reset sign
+import backgroundImg from '././assets/road.svg' //road background - desktop
+import backgroundImgMobile from '././assets/roadMobile.svg' //road background - mobile
+// import instructionsImg from '././assets/instructions.svg' //instruction sign
+// import resetImg from '././assets/reset.svg' //reset sign
+import footerImg from '././assets/footer.svg' //footer arrows
 
 function App() {
 
@@ -171,6 +173,7 @@ useEffect(() => {
     <>
     <div className="background wrapper">
         <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
+        <img src={backgroundImgMobile} className="backgroundImgMobile" alt="winding highway road background" aria-hidden="true" />
         <header>
           <img src={headerImg} className="headerImg" aria-hidden="true" alt="instructions sign which will show haiku building instructions on click" />
           <h1 className="visuallyHidden">Haikus Highway</h1>
@@ -199,15 +202,21 @@ useEffect(() => {
               : <>
                 <section className="wordInputSection">
                     <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
-                        <label htmlFor="wordInput">Enter a word for the first line:</label>
+                        <label htmlFor="wordInput">
+                        { selectedWord 
+                        ? `You have ${syllableCount} ${syllableCount > 1 ? "syllables" : "syllable"} remaining to complete your ${currentLine === 0 ? "first" : currentLine === 1 ? "second" : "third"} line. Choose from the suggested words below, or enter your own.`
+                          : `Enter a word for the ${currentLine === 0 ? "first" : currentLine === 1 ? "second" : "third"} line`
+                        }
+                        
+                        </label>
 
                         {/* show error message if invalid characters entered */
                             isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
                         }
 
                         <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-                        <h4>You have {syllableCount} syllables left in this line.</h4>
-                        {suggestedSelection.length ? <h3>Choose one:</h3> : null}
+                        {/* <h4>You have {syllableCount} syllables left in this line.</h4>
+                        {suggestedSelection.length ? <h3>Choose one:</h3> : null} */}
                         {
                             //runs twice: 
                             //1. based on change of userInput 
@@ -223,22 +232,23 @@ useEffect(() => {
           }
           {/* constructed haiku */}
           {wordLines[0] 
-            ? 
-            <section className="progressSection">
-                <h3>Your Haiku in Progress...</h3>
-                <div>
-              {/* display user`s selected words for line one here */}
-                  <p>{wordLines[0]}</p>
-                  <p>{wordLines[1]}</p>
-                  <p>{wordLines[2]}</p>
+            ? <section>
+                <div className="progressSection">
+                  <h3>Your Haiku in Progress...</h3>
+                  <div>
+                  {/* display user`s selected words for line one here */}
+                    <p>{wordLines[0]}</p>
+                    <p>{wordLines[1]}</p>
+                    <p>{wordLines[2]}</p>
+                  </div>
                 </div>
                 {/* <img src={resetImg} className="resetImg" onClick={handleResetClick} aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" /> */}
-              <div className="sign">
-                <div className="reset">
-                  <button aria-label="Click to reset Haiku" onClick={handleResetClick}>Reset</button>
-                  <span className="signPole"></span>
+                <div className="sign reset">
+                  <div>
+                    <button aria-label="Click to reset Haiku" onClick={handleResetClick}>Reset</button>
+                    <span className="signPole"></span>
+                  </div>
                 </div>
-              </div>
               </section>
             : null
           }
@@ -247,8 +257,12 @@ useEffect(() => {
 
       <footer>
         <div className="wrapper">
-          <p>Created at <span><a href="https://www.junocollege.com/" target="_blank" rel="noreferrer">Juno College</a></span></p>
-          <p>Made by ....</p>
+          <img src={footerImg} className="footerImgLeft" alt="arrows" aria-hidden="true" />
+          <div>
+            <p>Created at <span><a href="https://www.junocollege.com/" target="_blank" rel="noreferrer">Juno College</a></span></p>
+            <p>Made by Rebecca MacDonald, Anton Montrezor, Sarah Pilato, Jaime Robbins</p>
+          </div>
+          <img src={footerImg} className="footerImgRight" alt="arrows" aria-hidden="true" />
         </div>
       </footer>
 
