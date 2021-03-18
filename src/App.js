@@ -8,8 +8,6 @@ import Instructions from './Instructions';
 import headerImg from '././assets/header.svg' //h1 sign
 import backgroundImg from '././assets/road.svg' //road background - desktop
 import backgroundImgMobile from '././assets/roadMobile.svg' //road background - mobile
-// import instructionsImg from '././assets/instructions.svg' //instruction sign
-// import resetImg from '././assets/reset.svg' //reset sign
 import footerImg from '././assets/footer.svg' //footer arrows
 
 function App() {
@@ -179,7 +177,6 @@ useEffect(() => {
           <h1 className="visuallyHidden">Haikus Highway</h1>
           <nav>
             <ul>
-              {/* <li aria-label="Instructions"><button className="signButton" onClick={() => {setOpenInstructions(true)}}><img src={instructionsImg} className="instructionsImg" aria-hidden="true" /></button></li> */}
               <li className="sign instructions">
                 <div>
                   <button aria-label="Click to see instructions" onClick={() => { setOpenInstructions(true) }}>Instructions</button>
@@ -215,8 +212,6 @@ useEffect(() => {
                         }
 
                         <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-                        {/* <h4>You have {syllableCount} syllables left in this line.</h4>
-                        {suggestedSelection.length ? <h3>Choose one:</h3> : null} */}
                         {
                             //runs twice: 
                             //1. based on change of userInput 
