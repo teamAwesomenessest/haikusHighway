@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import './styles/App.scss';
+import firebase from './firebase';
 
 //component imports
 import Instructions from './Instructions';
+import HaikuCollection from './HaikuCollection';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 //image imports
 import headerImg from '././assets/header.svg' //h1 sign
@@ -167,8 +170,19 @@ useEffect(() => {
          setSelectedWord('');
     }
 
+    // handleAddHaiku pushes user created haiku to firebase database where it will be stored
+    // it will later be displayed in Haiku Collection component 
+    const handleAddHaiku = (event) => {
+        event.preventDefault();
+        // we create a reference to our database
+        const dbRef = firebase.database().ref();
+        dbRef.push(wordLines)
+
+        handleResetClick();
+    }
+
   return (
-    <>
+    <Router>
     <div className="background wrapper">
         <img src={backgroundImg} className="backgroundImg" alt="winding highway road background" aria-hidden="true" />
         <img src={backgroundImgMobile} className="backgroundImgMobile" alt="winding highway road background" aria-hidden="true" />
@@ -195,9 +209,8 @@ useEffect(() => {
           }
           {/* input form */
               haikuCompleted
-              ? null
-              : <>
-                <section className="wordInputSection">
+              ? <button onClick={event => handleAddHaiku(event)}>Add Haiku</button>
+              : <section className="wordInputSection">
                     <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
                         <label htmlFor="wordInput">
                         { selectedWord 
@@ -223,7 +236,7 @@ useEffect(() => {
                         }
                     </form>
                 </section>
-              </>
+              
           }
           {/* constructed haiku */}
           {wordLines[0] 
@@ -247,6 +260,7 @@ useEffect(() => {
               </section>
             : null
           }
+          <Route path="/collection" component={HaikuCollection}/>
         </main>
       </div>
 
@@ -261,7 +275,7 @@ useEffect(() => {
         </div>
       </footer>
 
-    </>
+    </Router>
   )
 }
 export default App;
