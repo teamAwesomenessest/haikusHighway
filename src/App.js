@@ -5,7 +5,7 @@ import firebase from './firebase';
 //component imports
 import Instructions from './Instructions';
 import HaikuCollection from './HaikuCollection';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //image imports
 import headerImg from '././assets/header.svg' //h1 sign

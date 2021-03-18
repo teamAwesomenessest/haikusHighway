@@ -22,7 +22,7 @@ const HaikuCollection = () => {
             // update haikuCollection state
             setHaikuCollection(collection);
         })
-    }, [])
+    }, [dbRef])
 
     // add a function that will remove haiku from database on user's click
     const handleRemoveHaiku = (event, haikuKey) => {
