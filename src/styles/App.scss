@@ -192,8 +192,9 @@ a {
     }
 
     &.reset {
-        top: 470px;
+        top: 595px;
         right: 100px;
+        position: absolute;
     }
 
     //MQ: hide pole, change position and color
@@ -278,7 +279,7 @@ li .instructions {
 }
 
 //content
-.modal-content {
+.modalContent {
     background-color: $color-brown;
     color: $color-light;
     margin: 2% auto;
@@ -333,7 +334,7 @@ li .instructions {
 }
 
 //close button
-.modal-close {
+.close {
     color: $color-light;
     font-size: 4rem;
     position: absolute;
@@ -354,7 +355,7 @@ li .instructions {
     }
 }
 
-.modal-close:hover, .modal-close:focus {
+.close:hover, .close:focus {
     transform: scale(1.1);
 } 
 
@@ -393,6 +394,9 @@ li .instructions {
         margin: 10px 0 5px;
     }
 
+    .submit {
+        margin: 15px 0 0;
+    }
     //MQ: adjust margin and center
     @include tablet {
         & {
@@ -400,6 +404,7 @@ li .instructions {
         }
     }
 }
+
 
 input[type="text"], .progressSection > div:not(.sign), .wordButton {
     background-color: $color-brown;
@@ -440,9 +445,9 @@ input[type="text"]:focus {
 }
 
 //haiku building section
-.wordInputSection {
+.wordInputSection, .progressSection.complete {
     align-self: flex-end;
-    margin-right: 150px;
+    margin: 0 auto;
 
     h3 {
         margin-bottom: 5px;
@@ -452,7 +457,6 @@ input[type="text"]:focus {
     @include tablet {
         & {
             align-self: unset;
-            margin-right: 0;
         }
     }
 }
@@ -481,40 +485,44 @@ input[type="text"]:focus {
 
 //collection section
 .collectionSection {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
+    margin-top: 125px;
 
     h2 {
         width: 100%;
     }
 
-    > div {
+    div {
         background-color: $color-brown;
         border-radius: 5px;
         box-shadow: 1px 1px 3px 1px $color-brown-transparent;
         color: $color-light;
-        padding: 10px;
+        padding: 10px 25px;
         margin: 10px;
-        width: calc(80% / 3);
+        width: calc(100% / 2 - 20px);
+        position: relative;
+
+        p:first-of-type {
+            margin-top: 12px;
+        }
+        // MQ: reducing size
+        @include smallTablet {
+            & {
+                width: 100%;
+            }
+        }
     }
 
-    //scrollbar
-    &::-webkit-scrollbar {
-        width: 20px;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: $color-light;
-    }
-    
-    //handle
-    &::-webkit-scrollbar-thumb {
-        background: $color-brown-transparent;
+    .close {
+        top: 2.5px;
+        right: 12.5px;
     }
 }
+
 
 /* ||||||||||| FOOTER ||||||||||| */
 

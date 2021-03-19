@@ -177,7 +177,7 @@ function HaikuBuild() {
                 <>
                     {/* input form */
                         haikuCompleted
-                            ? <button onClick={event => handleAddHaiku(event)}>Add Haiku</button>
+                            ? null
                             : <section className="wordInputSection">
                                 <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
                                     <label htmlFor="wordInput">
@@ -209,7 +209,7 @@ function HaikuBuild() {
                     {/* constructed haiku */}
                     {wordLines[0]
                         ? <section>
-                            <div className="progressSection">
+                            <div className={haikuCompleted ? "progressSection complete" : "progressSection"}>
                                 <h3>Your Haiku in Progress...</h3>
                                 <div>
                                     {/* display user`s selected words for line one here */}
@@ -217,6 +217,7 @@ function HaikuBuild() {
                                     <p>{wordLines[1]}</p>
                                     <p>{wordLines[2]}</p>
                                 </div>
+                            <button className="wordButton submit" onClick={event => handleAddHaiku(event)}>Add Haiku</button>
                             </div>
                             {/* <img src={resetImg} className="resetImg" onClick={handleResetClick} aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" /> */}
                             <div className="sign reset">

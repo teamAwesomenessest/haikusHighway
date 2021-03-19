@@ -40,7 +40,7 @@ function HaikuCollection() {
                 haikuCollection.map((individualHaiku, index) => {
                     return (
                         <div key={individualHaiku.key}>
-                            <button onClick={event => handleRemoveHaiku(event, individualHaiku.key)}>X</button>
+                            <button className="close" aria-label="delete button" onClick={event => handleRemoveHaiku(event, individualHaiku.key)}>&times;</button>
                             {
                                 // mapping through each individual haiku to get each line within that haiku (each value in a single array)
                                 individualHaiku.text.map((line, index) => {

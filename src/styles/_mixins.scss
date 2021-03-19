@@ -72,6 +72,12 @@
     }
 }
 
+@mixin smallTablet {
+    @media (max-width: 750px) {
+        @content;
+    }
+}
+
 @mixin largePhone {
     @media (max-width: 550px) {
         @content;
