@@ -1,7 +1,6 @@
 function Instructions(props) {
 
     return (
-        
         <section className="modal">
             <div className="modalContent">
                 <div>
@@ -24,9 +23,8 @@ function Instructions(props) {
                 </div>
             </div>
         </section>
-
     )
-
 }
+
 export default Instructions;
 

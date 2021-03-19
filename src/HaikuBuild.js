@@ -1,53 +1,48 @@
 import { useState, useEffect } from 'react';
 import firebase from './firebase';
 
-//component imports
-
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
 function HaikuBuild() {
 
-    // initialize state to track line one syllable count, with a maximum set to 5 syllables
+    // initialize state to track syllable count
     const [syllableCount, setSyllableCount] = useState(5);
 
     //initialize state to make a dynamic api call based on userInput
     const [userInput, setUserInput] = useState('');
 
-    // error message variable
+    //create a state to control error message
     const [isUserError, setIsUserError] = useState(false);
 
-    //create a state to hold user`s word for line 1
+    //create a state to hold user's words
     const [wordLines, setWordLines] = useState(['', '', '']);
 
-    //create a state to represent a current line a user selects words for
+    //create a state to represent a current line the user is on
     const [currentLine, setCurrentLine] = useState(0);
 
     //a state to store the selection retrieved from api based on userInput
     const [suggestedSelection, setSuggestedSelection] = useState([]);
 
-    const [haikuCompleted, setHaikuCompleted] = useState(false)
+    //a state to store whether a haiku is completed
+    const [haikuCompleted, setHaikuCompleted] = useState(false);
 
+    //a state to store selected word
     const [selectedWord, setSelectedWord] = useState('');
 
-    
+    //returns the number of sylables
+    let countSyllables = (string) => {
+        string = string.toLowerCase();
+        if (string.length <= 3) { return 1; }
+        string = string.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+        string = string.replace(/^y/, '');
+        string = string.match(/[aeiouy]{1,2}/g);
 
-    let countSyllables = (sepWordModified) => {
-        sepWordModified = sepWordModified.toLowerCase();
-        if (sepWordModified.length <= 3) { return 1; }
-        sepWordModified = sepWordModified.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
-        sepWordModified = sepWordModified.replace(/^y/, '');
-        sepWordModified = sepWordModified.match(/[aeiouy]{1,2}/g);
-
-        if (sepWordModified != null) {
-            return sepWordModified.length;
+        if (string != null) {
+            return string.length;
         } else {
             return 0
         }
-
-        //return sepWordModified.match(/[aeiouy]{1,2}/g).length;
     }
 
-    //validate alpha characters entered
+    //returns the number of invalid characters
     let userInvalidChars = (string) => {
         const regExp = new RegExp("[^a-zA-Z'-]");
         const invalidCharMatch = string.match(regExp);
@@ -58,7 +53,7 @@ function HaikuBuild() {
         }
     };
 
-    //whenever user types a single letter it triggers the api call below and provides 10 suggestions
+    //whenever user types a single letter it triggers the api call below and provides up to 10 suggestions
     const handleChange = event => {
         //targets what the user types
         const textInput = event.target.value;
@@ -84,7 +79,6 @@ function HaikuBuild() {
 
                         return countSyllables(filteredWord.word) <= syllableCount && userInvalidChars(filteredWord.word) === 0
                     })
-
                     if (!wordFound) {
                         const userObject = {
                             word: textInput.toLowerCase()
@@ -98,7 +92,6 @@ function HaikuBuild() {
 
     // when a user click on a button (chooses a word), it calls a handleClick function
     // handleClick prevents default button behavior (refreshing)
-
     const handleClick = (event, separateWord) => {
         event.preventDefault();
         const count = syllableCount - countSyllables(separateWord);
@@ -107,10 +100,9 @@ function HaikuBuild() {
         setSelectedWord(separateWord);
 
         // handleClick stores a value of the chosen word in wordLines state so it can be displayed on the page later on
-        // updating wordLines state
-
-        const line = [...wordLines]
+        const line = [...wordLines];
         line[currentLine] = `${line[currentLine]} ${separateWord}`;
+        // updating wordLines state
         setWordLines(line);
 
         if (count === 0 && currentLine < 2) {
@@ -125,14 +117,12 @@ function HaikuBuild() {
         // clearing suggestedSelection
         setSuggestedSelection([]);
 
-
         setUserInput('');
     }
 
-    //use useEffect hook to get filtered selection when line1Count changes and limits number of syllables in remaining words.
+    //use useEffect hook to get filtered selection when lineCount changes and limits number of syllables in remaining words
     useEffect(() => {
         //second api using initial user input that was submitted that was used for the first api call
-
         if (currentLine === 2 && syllableCount === 0) {
             setHaikuCompleted(true);
         } else {
@@ -144,12 +134,10 @@ function HaikuBuild() {
                     })
                     setSuggestedSelection(filteredSelection);
                 })
-
         }
-
     }, [syllableCount, currentLine, selectedWord])
 
-    // handleResetClick resets all the states on the page to their initial value so a user can start writing haikus over again
+    //handleResetClick resets all the states on the page to their initial value so a user can start writing haikus over and over again
     const handleResetClick = () => {
         setSyllableCount(5);
         setUserInput('');
@@ -162,7 +150,7 @@ function HaikuBuild() {
     }
 
     // handleAddHaiku pushes user created haiku to firebase database where it will be stored
-    // it will later be displayed in Haiku Collection component 
+    // it will later be displayed in the Haiku Collection component 
     const handleAddHaiku = (event) => {
         event.preventDefault();
         // we create a reference to our database
@@ -173,68 +161,62 @@ function HaikuBuild() {
     }
 
     return (
-        <Router>
-                <>
-                    {/* input form */
-                        haikuCompleted
-                            ? null
-                            : <section className="wordInputSection">
-                                <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
-                                    <label htmlFor="wordInput">
-                                        {selectedWord
-                                            ? `You have ${syllableCount} ${syllableCount > 1 ? "syllables" : "syllable"} remaining to complete your ${currentLine === 0 ? "first" : currentLine === 1 ? "second" : "third"} line. Choose from the suggested words below, or enter your own.`
-                                            : `Enter a word for the ${currentLine === 0 ? "first" : currentLine === 1 ? "second" : "third"} line:`
-                                        }
+        <>
+            {/* input form */
+                haikuCompleted
+                    ? null
+                    : <section className="wordInputSection">
+                        <form action="#" className="wordInputForm"><h2>Let's build a Haiku!</h2>
+                            <label htmlFor="wordInput">
+                                {
+                                    selectedWord
+                                        ? `You have ${syllableCount} ${syllableCount > 1 ? "syllables" : "syllable"} remaining to complete your ${currentLine === 0 ? "first" : currentLine === 1 ? "second" : "third"} line. Choose from the suggested words below, or enter your own.`
+                                        : `Enter a word for the ${currentLine === 0 ? "first" : currentLine === 1 ? "second" : "third"} line:`
+                                }
 
-                                    </label>
+                            </label>
 
-                                    {/* show error message if invalid characters entered */
-                                        isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
-                                    }
+                            {/* show error message if invalid characters entered */
+                                isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
+                            }
 
-                                    <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
-                                    {
-                                        //runs twice: 
-                                        //1. based on change of userInput 
-                                        //2. runs based off the button click when the user selects their word from the selection and makes second api call
-                                        suggestedSelection.map((separateWord, index) => {
-                                            return (
-                                                <button className="wordButton" key={index} onClick={(event) => handleClick(event, separateWord.word)}>  {separateWord.word} </button>)
-                                        })
-                                    }
-                                </form>
-                            </section>
-
-                    }
-                    {/* constructed haiku */}
-                    {wordLines[0]
-                        ? <section>
-                            <div className={haikuCompleted ? "progressSection complete" : "progressSection"}>
-                                <h3>Your Haiku in Progress...</h3>
-                                <div>
-                                    {/* display user`s selected words for line one here */}
-                                    <p>{wordLines[0]}</p>
-                                    <p>{wordLines[1]}</p>
-                                    <p>{wordLines[2]}</p>
-                                </div>
-                            <button className="wordButton submit" onClick={event => handleAddHaiku(event)}>Add Haiku</button>
-                            </div>
-                            {/* <img src={resetImg} className="resetImg" onClick={handleResetClick} aria-hidden="true" alt="reset sign which will reset the haiku in progress on click" /> */}
-                            <div className="sign reset">
-                                <div>
-                                    <button aria-label="Click to reset Haiku" onClick={handleResetClick}>Reset</button>
-                                    <span className="signPole"></span>
-                                </div>
-                            </div>
-                        </section>
-                        : null
-                    }
-                    {/* <Route path="/collection" component={HaikuCollection} /> */}
-                </>
-
-
-
-        </Router>
+                            <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
+                            {
+                                //Triggered: 
+                                //1. based on change of userInput 
+                                //2. based off the button click when the user selects their word from the selection and makes second api call
+                                suggestedSelection.map((separateWord, index) => {
+                                    return (
+                                        <button className="wordButton" key={index} onClick={(event) => handleClick(event, separateWord.word)}>  {separateWord.word} </button>)
+                                })
+                            }
+                        </form>
+                    </section>
+            }
+            {/* constructed haiku */}
+            {wordLines[0]
+                ? <section>
+                    <div className={haikuCompleted ? "progressSection complete" : "progressSection"}>
+                        <h3>Your Haiku in Progress...</h3>
+                        <div>
+                            {/* display user's selected words here */}
+                            <p>{wordLines[0]}</p>
+                            <p>{wordLines[1]}</p>
+                            <p>{wordLines[2]}</p>
+                        </div>
+                        <button className="wordButton submit" onClick={event => handleAddHaiku(event)}>Add Haiku</button>
+                    </div>
+                    <div className="sign reset">
+                        <div>
+                            <button aria-label="Click to reset Haiku" onClick={handleResetClick}>Reset</button>
+                            <span className="signPole"></span>
+                        </div>
+                    </div>
+                </section>
+                : null
+            }
+        </>
     )
 }
+
 export default HaikuBuild;

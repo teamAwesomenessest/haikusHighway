@@ -1,27 +1,27 @@
 //fluid font sizing
-@function strip-unit($value) {
+@function stripUnit($value) {
     @return $value / ($value * 0 + 1);
 }
 
-@mixin fluidFontSize($min-font-size, $max-font-size, $min-vw: 32rem, $max-vw: 120rem) {
+@mixin fluidFontSize($minFontSize, $maxFontSize, $minVw: 32rem, $maxVw: 120rem) {
     
-    $u1: unit($min-font-size);
-    $u2: unit($max-font-size);
-    $u3: unit($min-vw);
-    $u4: unit($max-vw);
+    $u1: unit($minFontSize);
+    $u2: unit($maxFontSize);
+    $u3: unit($minVw);
+    $u4: unit($maxVw);
 
     @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
         & {
-            font-size: $min-font-size;
-            line-height: calc(#{$min-font-size} + 5px);
-            @media (min-width: $min-vw) {
-                $fluid-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
-                font-size: $fluid-size;
-                line-height: calc(#{$fluid-size} + 5px);
+            font-size: $minFontSize;
+            line-height: calc(#{$minFontSize} + 5px);
+            @media (min-width: $minVw) {
+                $fluidSize: calc(#{$minFontSize} + #{stripUnit($maxFontSize - $minFontSize)} * ((100vw - #{$minVw}) / #{stripUnit($maxVw - $minVw)}));
+                font-size: $fluidSize;
+                line-height: calc(#{$fluidSize} + 5px);
             }
-            @media (min-width: $max-vw) {
-                font-size: $max-font-size;
-                line-height: calc(#{$max-font-size} + 5px);
+            @media (min-width: $maxVw) {
+                font-size: $maxFontSize;
+                line-height: calc(#{$maxFontSize} + 5px);
             }
         }
     }
@@ -45,23 +45,6 @@
     #{$el}:hover a:after, #{$el}:focus a:after {
         width: 100%;
         left: 0;
-    }
-}
-
-//flex
-@mixin flex--justify-align-wrap($justify-centre: false, $align-centre: false, $wrap: false ) {
-    display: flex;
-    
-    @if $justify-centre {
-        justify-content: center;
-    }
-
-    @if $align-centre {
-        align-items: center;
-    }
-
-    @if $wrap {
-        flex-wrap: wrap;
     }
 }
 
