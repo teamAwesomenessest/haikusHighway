@@ -39,11 +39,12 @@ function HaikuCollection() {
     return (
         <section className="collectionSection">
             <h2>Haiku Collection</h2>
+            <ul>
             {   
                 // mapping through haikuCollection that represents an array of individual haiku objects
                 haikuCollection.map((individualHaiku) => {
                     return (
-                        <div key={individualHaiku.key}>
+                        <li key={individualHaiku.key}>
                             <button className="close" aria-label="delete button" onClick={event => handleRemoveHaiku(event, individualHaiku.key)}>&times;</button>
                             {
                                 // mapping through each individual haiku to get each line within that haiku (each value in a single array)
@@ -51,10 +52,11 @@ function HaikuCollection() {
                                     return <p key={index}>{line}</p>
                                 })
                             }
-                        </div>
+                        </li>
                     )
                 })
             }
+            </ul>
         </section>
     )
 }

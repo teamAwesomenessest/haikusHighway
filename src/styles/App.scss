@@ -33,14 +33,16 @@ body > div {
 main {
     display: flex;
     flex-direction: column;
-    margin-top: 70px;
+    margin-top: 50px;
+    margin-left: 15px;
     width: 100%;
 
     //MQ: center flex items and remove margin
     @include tablet {
         & {
-            // margin: 0;
             align-items: center;
+            margin-top: 13px;
+            margin-left: 0;
         }
     }
 }
@@ -73,20 +75,12 @@ a {
 //background, header + instructions images
 .background {
     position: relative;
-    overflow: hidden;
-    height: calc(950px + 10vw);
+    height: calc(970px + 10vw);
     padding-bottom: 10px;
 
-    @include tablet {
+    @include smallTablet {
         & {
-            max-height: unset;
-        }
-    }
-
-    @include largePhone {
-        & {
-            max-height: unset;
-            min-height: 90vh;
+            height: calc(1020px + 10vw);
         }
     }
 }
@@ -115,10 +109,11 @@ a {
 
 .headerImg {
     max-width: 400px;
+    min-width: 190px;
     width: 40vw;
-    margin-top: 25px;
-    margin-left: 5px;
     position: absolute;
+    top: 25px;
+    left: 5px;
     z-index: -5;
 }
 
@@ -132,11 +127,12 @@ a {
     @include fluidFontSize(1.8rem, 3rem);
     box-shadow: 2px 1px 2px 1px $colorBrownTransparent;
     margin-top: 20px;
+    transition: background-color 0.2s;
 
     div {
         border: solid $colorLight 3px;
         border-radius: 5px;
-        padding: 8px;
+        padding: 8px 12px;
         position: relative;
     }
 
@@ -152,7 +148,7 @@ a {
     .signPole {
         background-color: $colorBrown;
         width: 10px;
-        height: 140px;
+        height: 180px;
         position: absolute;
         box-shadow: 2px 0px 2px 1px $colorBrownTransparent;
         right: 45%;
@@ -161,17 +157,23 @@ a {
     }
 
     &.instructions {
-        margin-right: 53px;
+        margin-right: 15px;
     }
 
     &.path {
-        margin-right: 20px;
+        margin-right: 115px;
+        margin-top: 70px;
     }
 
     &.reset {
-        top: 800px;
+        top: 815px;
         right: 100px;
         position: absolute;
+        margin-top: 5px;
+    }
+
+    &:hover, &:focus {
+        background-color: darken($colorBrown, 10%);
     }
 
     //MQ: hide pole, change position and color
@@ -179,6 +181,7 @@ a {
         & {
             background-color: $colorLight;
             color: $colorBrown;
+            margin-top: 38px;
 
             a {
                 color: $colorBrown;
@@ -186,7 +189,7 @@ a {
 
             div {
                 border: solid $colorBrown 3px;
-                padding: 5px;
+                padding: 5px 8px;
             }
 
             button {
@@ -201,10 +204,22 @@ a {
                 margin-right: 5%;
             }
 
+            &.instructions {
+                margin-top: 10px;
+            }
+
+            &.path {
+                margin-top: 40px;
+            }
+
             &.reset {
                 position: unset;
                 display: inline-block;
                 margin-left: 5%;
+            }
+
+            &:hover, &:focus {
+                background-color: darken($colorLight, 10%);
             }
         }
     }
@@ -214,7 +229,7 @@ a {
             padding: 5px;
 
             & div {
-                padding: 3px;
+                padding: 3px 5px;
             }
         }
     }
@@ -232,11 +247,10 @@ nav ul {
     a {
         color: $colorLight;
     }
-}
 
-li .instructions {
-    position: absolute;
-    top: 0px;
+    @include tablet {
+        margin-top: 90px;
+    }
 }
 
 /* /||||||||||| MODAL ||||||||||| */
@@ -320,7 +334,7 @@ li .instructions {
     z-index: 20;
     background-color: transparent;
     border: none;
-    transition: transform 0.3s linear; //scale on hover
+    transition: transform 0.3s, color 0.3s;
 
     //MQ: decrease size of close button
     @include tablet {
@@ -332,6 +346,7 @@ li .instructions {
 
 .close:hover, .close:focus {
     transform: scale(1.1);
+    color: darken($colorLight, 10%)
 } 
 
 /* ||||||||||| SECTIONS ||||||||||| */
@@ -460,16 +475,21 @@ input[type="text"]:focus {
 .collectionSection {
     width: 90%;
     margin: 0 auto;
-    overflow-y: scroll;
-    display: flex;
-    flex-wrap: wrap;
     margin-top: 125px;
 
     h2 {
         width: 100%;
     }
 
-    div {
+    ul {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        overflow-y: scroll;
+        max-height: 625px;
+    }
+
+    li {
         background-color: $colorBrown;
         border-radius: 5px;
         box-shadow: 1px 1px 3px 1px $colorBrownTransparent;
@@ -482,6 +502,7 @@ input[type="text"]:focus {
         p:first-of-type {
             margin-top: 12px;
         }
+
         // MQ: reducing size
         @include smallTablet {
             & {
@@ -493,6 +514,19 @@ input[type="text"]:focus {
     .close {
         top: 2.5px;
         right: 12.5px;
+    }
+
+    // MQ: pull section up
+    @include tablet {
+        & {
+            margin-top: 55px;
+        }
+    }
+
+    @include largePhone {
+        & {
+            margin-top: 0px;
+        }
     }
 }
 
