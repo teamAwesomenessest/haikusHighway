@@ -204,7 +204,11 @@ function HaikuBuild() {
                             <p>{wordLines[1]}</p>
                             <p>{wordLines[2]}</p>
                         </div>
-                        <button className="wordButton submit" onClick={event => handleAddHaiku(event)}>Add Haiku to Collection</button>
+                        { //add buton to push to collection on haiku completion
+                            haikuCompleted 
+                            ? <button className="wordButton submit" onClick={event => handleAddHaiku(event)}>Add Haiku to Collection</button>
+                            : null
+                        }  
                     </div>
                     <div className="sign reset">
                         <div>

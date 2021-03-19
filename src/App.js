@@ -8,7 +8,7 @@ import Instructions from './Instructions';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 //image imports
-import headerImg from '././assets/headerSign.svg' //h1 sign
+import headerImg from '././assets/headerSign.png' //h1 sign
 import backgroundImg from '././assets/road.svg' //road background - desktop
 import backgroundImgMobile from '././assets/roadMobile.svg' //road background - mobile
 import footerImg from '././assets/footer.svg' //footer arrows
