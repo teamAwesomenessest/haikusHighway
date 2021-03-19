@@ -1,9 +1,7 @@
-
 //sass files
 @import './_setup.scss';
 @import './_variables.scss';
 @import './_mixins.scss';
-
 
 /* ||||||||||| BASE ||||||||||| */
 
@@ -13,8 +11,9 @@ html {
 }
 
 body {
-    background-color: $color-green-transparent;
-    font-family: $font-body;
+    background-color: $colorGreenTransparent;
+    font-family: $fontBody;
+    color: $colorBrown;
     @include fluidFontSize(1.7rem, 2rem);
 }
 
@@ -34,36 +33,14 @@ body > div {
 main {
     display: flex;
     flex-direction: column;
-    margin: 0 10px;
-    position: relative;
-    top: -20vw;
+    margin-top: 70px;
     width: 100%;
 
     //MQ: center flex items and remove margin
     @include tablet {
         & {
-            margin: 0;
+            // margin: 0;
             align-items: center;
-        }
-    }
-
-    //MQ: move up on page
-    @include largePhone {
-        & {
-            top: -28vw;
-        }
-    }
-
-    @include smallPhone {
-        & {
-            top: -23vw;
-        }
-    }
-
-    //hard code top position beyond max width
-    @include minWidth {
-        & {
-            top: -245px;
         }
     }
 }
@@ -87,7 +64,8 @@ p {
 
 a {
     text-decoration: none;
-    color: $color-light;
+    color: $colorLight;
+    font-family: $fontBody;
 }
 
 /* ||||||||||| HEADER + BACKGROUND ||||||||||| */
@@ -137,99 +115,91 @@ a {
 }
 
 .headerImg {
-    width: 30%;
+    max-width: 400px;
+    width: 40vw;
     margin-top: 25px;
     margin-left: 5px;
-
-    //MQ: increase size
-    @include tablet {
-        & {
-            width: 40%;
-        }
-    }
-
-    @include largePhone {
-        & {
-            width: 50%;
-        }
-    }
-
-    @include smallPhone {
-        & {
-            width: 60%;
-        }
-    }
+    position: absolute;
+    z-index: -5;
 }
 
 //constructing instructions and reset signs
 .sign {
-    background-color: $color-brown;
+    background-color: $colorBrown;
     padding: 8px;
     border-radius: 8px;
     width: unset;
-    color: $color-light;
+    color: $colorLight;
     @include fluidFontSize(1.8rem, 3rem);
-    position: absolute;
-    box-shadow: 2px 1px 2px 1px $color-brown-transparent;
+    box-shadow: 2px 1px 2px 1px $colorBrownTransparent;
+    margin-top: 20px;
 
     div {
-        border: solid $color-light 3px;
+        border: solid $colorLight 3px;
         border-radius: 5px;
         padding: 8px;
         position: relative;
     }
 
-    button {
+    button, a {
         border: none;
         background: transparent;
-        color: $color-light;
-        font-family: $font-body;
+        color: $colorLight;
+        font-family: $fontBody;
+        font-weight: 500;
+        padding: 0;
     }
 
     .signPole {
-        background-color: $color-brown;
+        background-color: $colorBrown;
         width: 10px;
         height: 140px;
         position: absolute;
-        box-shadow: 2px 0px 2px 1px $color-brown-transparent;
+        box-shadow: 2px 0px 2px 1px $colorBrownTransparent;
         right: 45%;
         top: 55px;
         z-index: -10;
     }
 
     &.instructions {
-        top: 60px;
-        right: 95px;
+        margin-right: 53px;
+    }
+
+    &.path {
+        margin-right: 20px;
     }
 
     &.reset {
-        top: 470px;
+        top: 595px;
         right: 100px;
+        position: absolute;
     }
 
     //MQ: hide pole, change position and color
     @include tablet {
         & {
-            background-color: $color-light;
-            color: $color-brown;
+            background-color: $colorLight;
+            color: $colorBrown;
+
+            a {
+                color: $colorBrown;
+            }
 
             div {
-                border: solid $color-brown 3px;
+                border: solid $colorBrown 3px;
                 padding: 5px;
             }
 
             button {
-                color: $color-brown;
-                font-weight: 500;
+                color: $colorBrown;
             }
         
             .signPole {
                 display: none;
             }
 
-            &.instructions {
-                top: calc(23vw - 10px);
-                right: 5%;
+            &.instructions, &.path {
+                margin-right: 5%;
             }
 
             &.reset {
@@ -247,23 +217,22 @@ a {
             & div {
                 padding: 3px;
             }
-
-            &.instructions {
-                top: calc(29vw - 10px);
-            }
         }
     }
-
-    @include smallPhone {
-        &.instructions {
-            top: calc(45vw - 10px);
-        }
-    }
-    
 }
 
-nav li {
-    display: inline-block;
+nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    li {
+        display: inline-block;
+    }
+
+    a {
+        color: $colorLight;
+    }
 }
 
 li .instructions {
@@ -282,13 +251,13 @@ li .instructions {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: $color-light-transparent;
+    background-color: $colorLightTransparent;
 }
 
 //content
-.modal-content {
-    background-color: $color-brown;
-    color: $color-light;
+.modalContent {
+    background-color: $colorBrown;
+    color: $colorLight;
     margin: 2% auto;
     padding: 15px;
     border-radius: 15px;
@@ -297,7 +266,7 @@ li .instructions {
 
     //light inner border
     div {
-        border: 4px solid $color-light;
+        border: 4px solid $colorLight;
         border-radius: 10px;
         padding: 20px;
     }
@@ -341,8 +310,8 @@ li .instructions {
 }
 
 //close button
-.modal-close {
-    color: $color-light;
+.close {
+    color: $colorLight;
     font-size: 4rem;
     position: absolute;
     top: 15px;
@@ -362,18 +331,17 @@ li .instructions {
     }
 }
 
-.modal-close:hover, .modal-close:focus {
+.close:hover, .close:focus {
     transform: scale(1.1);
 } 
 
+/* ||||||||||| SECTIONS ||||||||||| */
 
-/* ||||||||||| INPUT + PROGRESS SECTIONS ||||||||||| */
-
-.wordInputSection, .progressSection {
+.wordInputSection, .progressSection, .collectionSection {
     padding: 30px;
     width: 60%;
-    background-color: $color-light-transparent;
-    box-shadow: 2px 2px 6px 4px $color-brown-transparent;
+    background-color: $colorLightTransparent;
+    box-shadow: 2px 2px 6px 4px $colorBrownTransparent;
     border-radius: 6px;
 
     //MQ: increase width
@@ -401,6 +369,9 @@ li .instructions {
         margin: 10px 0 5px;
     }
 
+    .submit {
+        margin: 15px 0 0;
+    }
     //MQ: adjust margin and center
     @include tablet {
         & {
@@ -410,9 +381,9 @@ li .instructions {
 }
 
 input[type="text"], .progressSection > div:not(.sign), .wordButton {
-    background-color: $color-brown;
+    background-color: $colorBrown;
     border-radius: 5px;
-    color: $color-light;
+    color: $colorLight;
     border: none;
 }
 
@@ -444,13 +415,13 @@ input[type="text"] {
 
 input[type="text"]:focus {
     transform: scale(1.01);
-    box-shadow: 1px 1px 3px 1px $color-brown-transparent;
+    box-shadow: 1px 1px 3px 1px $colorBrownTransparent;
 }
 
 //haiku building section
-.wordInputSection {
+.wordInputSection, .progressSection.complete {
     align-self: flex-end;
-    margin-right: 150px;
+    margin: 0 auto;
 
     h3 {
         margin-bottom: 5px;
@@ -460,7 +431,6 @@ input[type="text"]:focus {
     @include tablet {
         & {
             align-self: unset;
-            margin-right: 0;
         }
     }
 }
@@ -481,25 +451,65 @@ input[type="text"]:focus {
 }
 
 .wordButton:hover, .wordButton:focus {
-    background-color: $color-green;
-    color: $color-brown;
+    background-color: $colorGreen;
+    color: $colorBrown;
     transform: scale(1.05);
-    box-shadow: 1px 1px 3px 1px $color-brown-transparent;
+    box-shadow: 1px 1px 3px 1px $colorBrownTransparent;
+}
+
+//collection section
+.collectionSection {
+    width: 90%;
+    margin: 0 auto;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 125px;
+
+    h2 {
+        width: 100%;
+    }
+
+    div {
+        background-color: $colorBrown;
+        border-radius: 5px;
+        box-shadow: 1px 1px 3px 1px $colorBrownTransparent;
+        color: $colorLight;
+        padding: 10px 25px;
+        margin: 10px;
+        width: calc(100% / 2 - 20px);
+        position: relative;
+
+        p:first-of-type {
+            margin-top: 12px;
+        }
+        // MQ: reducing size
+        @include smallTablet {
+            & {
+                width: 100%;
+            }
+        }
+    }
+
+    .close {
+        top: 2.5px;
+        right: 12.5px;
+    }
 }
 
 /* ||||||||||| FOOTER ||||||||||| */
 
 footer {
     width: 100%;
-    background-color: $color-brown;
-    border-top: $color-light 5px solid;
-    color: $color-light;
+    background-color: $colorBrown;
+    border-top: $colorLight 5px solid;
+    color: $colorLight;
     text-align: center;
     padding: 20px 10px;
-    box-shadow: 0px -4px 6px $color-brown;
+    box-shadow: 0px -4px 6px $colorBrown;
 
     p {
-        @include animatedUnderline($color-light, "span");
+        @include animatedUnderline($colorLight, "span");
     }
 
     img {

@@ -1,7 +1,7 @@
 import firebase from './firebase';
 import { useState, useEffect } from 'react';
 
-const HaikuCollection = () => {
+function HaikuCollection() {
     // create a state to hold haiku collection retrieved from the database
     const [haikuCollection, setHaikuCollection] = useState([]);
     // create a variable that holds a reference to our database
@@ -22,25 +22,29 @@ const HaikuCollection = () => {
             // update haikuCollection state
             setHaikuCollection(collection);
         })
+        //close db connection on unmount
+        return () => {
+            dbRef.off();
+        }
     }, [dbRef])
 
     // add a function that will remove haiku from database on user's click
     const handleRemoveHaiku = (event, haikuKey) => {
         event.preventDefault();
 
-        // remove individual haiku based on a unique firebase key it is stored under
+        // remove individual haiku based on a unique firebase key
         dbRef.child(haikuKey).remove();
     }
 
     return (
-        <section>
+        <section className="collectionSection">
             <h2>Haiku Collection</h2>
             {   
-                // mapping through haikuCollection that represents an array with arrays (individual haiku)
-                haikuCollection.map((individualHaiku, index) => {
+                // mapping through haikuCollection that represents an array of individual haiku objects
+                haikuCollection.map((individualHaiku) => {
                     return (
                         <div key={individualHaiku.key}>
-                            <button onClick={event => handleRemoveHaiku(event, individualHaiku.key)}>X</button>
+                            <button className="close" aria-label="delete button" onClick={event => handleRemoveHaiku(event, individualHaiku.key)}>&times;</button>
                             {
                                 // mapping through each individual haiku to get each line within that haiku (each value in a single array)
                                 individualHaiku.text.map((line, index) => {

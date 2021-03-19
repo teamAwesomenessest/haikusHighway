@@ -1,11 +1,10 @@
-export default function Instructions(props) {
+function Instructions(props) {
 
     return (
-        
         <section className="modal">
-            <div className="modal-content">
+            <div className="modalContent">
                 <div>
-                    <button className="modal-close" aria-label="close button" onClick={() => { props.openInstructionsFn(false) }}>&times;</button>
+                    <button className="close" aria-label="close button" onClick={() => { props.openInstructionsFn(false) }}>&times;</button>
                     <h2>What is a Haiku?</h2>
                     <p>A Haiku is a type of short poem that originated in Japan. The poem consists of three lines in a specific pattern - the first line contains 5 syllables, the second line contains 7 syllables and the third and final line is 5 syllables. </p>
                     <h2>An Example Haiku:</h2>
@@ -24,9 +23,8 @@ export default function Instructions(props) {
                 </div>
             </div>
         </section>
-
     )
-
 }
 
+export default Instructions;
 
