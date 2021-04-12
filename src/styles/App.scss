@@ -70,6 +70,11 @@ a {
     font-family: $fontBody;
 }
 
+a:focus ,
+button:focus {
+    outline: none;  
+}
+
 /* ||||||||||| HEADER + BACKGROUND ||||||||||| */
 
 //background, header + instructions images
@@ -172,7 +177,7 @@ a {
         margin-top: 5px;
     }
 
-    &:hover, &:focus {
+    &:hover, &:focus-within {
         background-color: darken($colorBrown, 10%);
     }
 
@@ -234,6 +239,7 @@ a {
         }
     }
 }
+
 
 nav ul {
     display: flex;

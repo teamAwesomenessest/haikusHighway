@@ -42,7 +42,7 @@
         left: 50%;
         transition: width 0.3s, left 0.3s;
     }
-    #{$el}:hover a:after, #{$el}:focus a:after {
+    #{$el}:hover a:after, #{$el}:focus-within a:after {
         width: 100%;
         left: 0;
     }
