@@ -87,6 +87,9 @@ function HaikuBuild() {
                     }
                     setSuggestedSelection(filteredSelection);
                 })
+                .catch(() => {
+                    alert('Oops, we\'re experiencing technical difficulties, please try again later.');
+                })
         }
     }
 
@@ -130,9 +133,12 @@ function HaikuBuild() {
                 .then(response => response.json())
                 .then(jsonResponse => {
                     const filteredSelection = jsonResponse.filter(filteredWord => {
-                        return filteredWord.numSyllables <= syllableCount && userInvalidChars(filteredWord.word) === 0
+                        return filteredWord.numSyllables <= syllableCount && userInvalidChars(filteredWord.word) === 0;
                     })
                     setSuggestedSelection(filteredSelection);
+                })
+                .catch(() => {
+                    alert('Oops, we\'re experiencing technical difficulties, please try again later.');
                 })
         }
     }, [syllableCount, currentLine, selectedWord])
@@ -177,7 +183,7 @@ function HaikuBuild() {
                             </label>
 
                             {/* show error message if invalid characters entered */
-                                isUserError ? <p className="errorMessage">Please enter a single word without any punctuation or spaces.</p> : null
+                                isUserError ? <p className="errorMessage">Please enter a single word within the remaining syllable count without any punctuation or spaces.</p> : null
                             }
 
                             <input type="text" name="wordInput" id="wordInput" placeholder="welcome" value={userInput} onChange={handleChange} />
