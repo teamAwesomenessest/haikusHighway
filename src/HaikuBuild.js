@@ -27,7 +27,7 @@ function HaikuBuild() {
     //a state to store selected word
     const [selectedWord, setSelectedWord] = useState('');
 
-    //returns the number of sylables
+    //returns the number of syllables
     let countSyllables = (string) => {
         string = string.toLowerCase();
         if (string.length <= 3) { return 1; }
@@ -123,7 +123,7 @@ function HaikuBuild() {
         setUserInput('');
     }
 
-    //use useEffect hook to get filtered selection when lineCount changes and limits number of syllables in remaining words
+    //use useEffect hook to get filtered selection when lineCount changes and limits a number of syllables in the remaining words
     useEffect(() => {
         //second api using initial user input that was submitted that was used for the first api call
         if (currentLine === 2 && syllableCount === 0) {
@@ -210,7 +210,7 @@ function HaikuBuild() {
                             <p>{wordLines[1]}</p>
                             <p>{wordLines[2]}</p>
                         </div>
-                        { //add buton to push to collection on haiku completion
+                        { //add button to push to the collection on haiku completion
                             haikuCompleted 
                             ? <button className="wordButton submit" onClick={event => handleAddHaiku(event)}>Add Haiku to Collection</button>
                             : null

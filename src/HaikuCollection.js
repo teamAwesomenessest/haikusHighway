@@ -8,16 +8,16 @@ function HaikuCollection() {
     const dbRef = firebase.database().ref();
 
     useEffect(() => {
-        // add an event listener to that variable that will fire every time there is a change in the database.
+        // add an event listener that will fire every time there is a change in the database.
         dbRef.on('value', response => {
             // store database object in a variable
             const data = response.val();
             // create an array to store haiku that will be used to update haikuCollection state
             const collection = [];
-            //data is an object, so we iterate through it using a for in loop to access each haiku name 
+            //data is an object, so we iterate over it using a for in loop to access each haiku name 
             for (let key in data) {
                 // create an object where each haiku will be stored together with its database unique key and push the object to collection array
-                collection.push({key: key, text: data[key]});
+                collection.push({key, text: data[key]});
             }
             // update haikuCollection state
             setHaikuCollection(collection);
